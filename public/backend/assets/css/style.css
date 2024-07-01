@@ -1,0 +1,38 @@
+.form-group label{
+    font-weight: 400;
+    font-size: 15px;
+}
+.data-table-head{
+    background: #00816ae6;
+    border-bottom: none;
+    color: #fff;
+    border-left: 1px solid #fff;
+}
+.data-table-head-row th{
+    border-right: 1px solid #ddd;
+}
+.assign-form{
+    padding-bottom: 10px !important;
+}
+.employe_laser_table td{
+    border: 1px solid #ddd !important;
+    font-size: 15px !important;
+}
+.laser-title{
+    font-weight: bold !important;
+}
+.laser-id{
+    font-size: 15px !important;
+}
+.table-id-field a:hover{
+    background: #004763 !important;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+}
+.bill-table-info td{
+    border: none !important;
+}
+.sign tr td{
+    padding: 2px !important;
+}

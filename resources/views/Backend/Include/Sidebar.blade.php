@@ -4,13 +4,13 @@
                 <img src="{{asset('Backend/assets/images/avatar.png')}}" class="img-circle" alt="user Image">
             </div>
             <div class="pull-left info">
-                <p>Supper Admin</p>
+                <p> {{ Auth::guard('admin')->user()->name }}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
             </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="#">
-                <a href="index.php">
+                <a href="{{route('admin.dashboard')}}">
                     <i class="fa fa-home"></i> <span>ড্যাশবোর্ড</span>
                     <span class="pull-right-container">
                         <i class="pull-right"></i>

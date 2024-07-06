@@ -2,11 +2,10 @@
             <!-- Logo -->
             <a href="" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">Admin</span>
+                <span class="logo-mini">সনদ ব্যবস্থাপনা</span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">সনদ ব্যবস্থাপনা</span>
             </a>
-
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
@@ -22,4 +21,4 @@
                     </ul>
                 </div>
             </nav>
-        </header><!-- Left side column. contains the logo and sidebar -->
+        </header>

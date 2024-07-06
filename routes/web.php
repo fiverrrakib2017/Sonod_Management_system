@@ -9,7 +9,7 @@ Route::post('login-functionality',[AdminController::class,'login_functionality']
 
 Route::group(['middleware'=>'admin'],function(){
     Route::get('admin/logout',[AdminController::class,'logout'])->name('admin.logout');
-    Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
+    Route::get('/',[AdminController::class,'dashboard'])->name('admin.dashboard');
     Route::post('/admin/get_dashboard_data',[AdminController::class,'get_data'])->name('admin.dashboard_get_all_data');
 
    

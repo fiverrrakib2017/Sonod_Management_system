@@ -84,7 +84,7 @@ class DivisionController extends Controller
         $country->division_name_en = $request->division_name_en;
         $country->save();
 
-        return response()->json(['success' => 'Update Successfully']);
+        return response()->json(['success' =>true, 'message'=> 'Update successfully']);
     }
     public function delete(Request $request){
         $country = Division::find($request->id);
@@ -95,6 +95,6 @@ class DivisionController extends Controller
         // Delete the Data
         $country->delete();
 
-        return response()->json(['success' => 'Deleted successfully']); 
+        return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
     }
 }

@@ -45,17 +45,19 @@
               </button></h4>
             </div>
             <div class="modal-body">
-              <form action="" method="POST" enctype="multipart/form-data">
+              <form action="{{route('admin.division.store')}}" method="POST" enctype="multipart/form-data">
+                @csrf
                     <div class="form-group">
                         <label>বিভাগ নাম (বাংলা ):</label>
-                        <input name="district_name" placeholder="বিভাগ নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                        <input name="division_name_bn" placeholder="বিভাগ নাম বাংলাতে লিখুন" class="form-control" type="text" >
                     </div>
                     <div class="form-group">
                         <label>বিভাগ নাম (ইংরেজী)</label>
-                        <input name="ename" placeholder="বিভাগ নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
+                        <input name="division_name_en" placeholder="বিভাগ নাম ইংরেজিতে লিখুন" class="form-control" type="text" >
                     </div>                    
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-success">সংরক্ষন করুন</button>
+                        <button data-dismiss="modal" type="button" class="btn btn-danger">Cancel</button>
+                        <button type="submit" class="btn btn-success">সংরক্ষন করুন</button>
                     </div>
                 </form>
             </div>
@@ -68,7 +70,7 @@
     
       <!-- District Edit Modal Start -->
     <div class="modal fade" id="editModal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">বিভাগ আপডেট করুন
@@ -77,18 +79,20 @@
               </button></h4>
             </div>
             <div class="modal-body">
-              <form action="" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
+              <form action="{{route('admin.division.update')}}" method="POST" enctype="multipart/form-data">@csrf
+                        <input name="id"  type="hidden" >
+                      <div class="form-group">
                         <label>বিভাগ নাম (বাংলা ):</label>
-                        <input name="district_name" placeholder="বিভাগ নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
-                    </div>
-                    <div class="form-group">
+                        <input name="division_name_bn" placeholder="বিভাগ নাম বাংলাতে লিখুন" class="form-control" type="text" >
+                      </div>
+                      <div class="form-group">
                         <label>বিভাগ নাম (ইংরেজী)</label>
-                        <input name="ename" placeholder="বিভাগ নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
-                    </div>                    
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-success">আপডেট করুন</button>
-                    </div>
+                        <input name="division_name_en" placeholder="বিভাগ নাম ইংরেজিতে লিখুন" class="form-control" type="text" >
+                      </div>                    
+                      <div class="modal-footer justify-content-between">
+                        <button data-dismiss="modal" type="button" class="btn btn-danger">Cancel</button>
+                        <button type="submit" class="btn btn-success">সংরক্ষন করুন</button>
+                      </div>
                 </form>
             </div>
           </div>
@@ -97,6 +101,31 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- District Edit Modal End -->
+
+      <div id="DivdeleteModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <form action="{{route('admin.division.delete')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="fas fa-trash"></i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <input type="hidden" name="id" value="">
+                <a class="close" data-dismiss="modal" aria-hidden="true"><i class="mdi mdi-close"></i></a>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete these records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 
 
@@ -150,11 +179,6 @@
         });
 
     });
-
-
-    //$("#datatable1").DataTable();
-
-
     /** Handle edit button click**/
     $('#datatable1 tbody').on('click', '.edit-btn', function () {
       var id = $(this).data('id');
@@ -182,19 +206,19 @@
 
 
   /** Handle Delete button click**/
-  $('#datatable1 tbody').on('click', '.delete-btn', function () {
-    var id = $(this).data('id');
-    $('#deleteModal').modal('show');
-    var value_input = $("input[name*='id']").val(id);
-  });
+    $('#datatable1 tbody').on('click', '.delete-btn', function() {
+        var id = $(this).data('id');
+        $('#DivdeleteModal').modal('show');
+        $("input[name*='id']").val(id);
+    });
 
 
 
   /** Handle form submission for delete **/
-  $('#deleteModal form').submit(function(e){
+  $('#DivdeleteModal form').submit(function(e){
     e.preventDefault();
     /*Get the submit button*/
-    var submitBtn =  $('#deleteModal form').find('button[type="submit"]');
+    var submitBtn =  $('#DivdeleteModal form').find('button[type="submit"]');
 
     /* Save the original button text*/
     var originalBtnText = submitBtn.html();
@@ -211,8 +235,8 @@
       'url':url,
       data: formData,
       success: function (response) {
-        $('#deleteModal').modal('hide');
         if (response.success) {
+          $('#DivdeleteModal').modal('hide');
           toastr.success(response.message);
           $('#datatable1').DataTable().ajax.reload( null , false);
         }
@@ -255,7 +279,12 @@
 
       error: function (xhr, status, error) {
          /** Handle  errors **/
-        console.error(xhr.responseText);
+        if (xhr.status === 422) {
+            var errors = xhr.responseJSON.errors;
+            $.each(errors, function(key, value) {
+                toastr.error(value[0]); 
+            });
+        }
       }
     });
   });

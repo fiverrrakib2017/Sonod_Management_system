@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title> @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -25,6 +26,8 @@
     <link rel="stylesheet" href="{{asset('Backend/assets/css/bootstrap-timepicker.min.css')}}">
     <link rel="stylesheet" href="{{asset('Backend/assets/css/all.css')}}">
     <link rel="stylesheet" href="{{asset('Backend/assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('Backend/assets/css/toastr.min.css')}}">
+    <link href="{{ asset('Backend/assets/css/deleteModal.css') }}" rel="stylesheet" type="text/css">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
      <!-- jQuery 2.2.3 -->
@@ -35,6 +38,7 @@
     <!--datepicker-->
     <script src="{{asset('Backend/assets/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('Backend/assets/js/bootstrap-timepicker.min.js')}}"></script>
+    
   
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -67,6 +71,7 @@
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="{{ asset('Backend/assets/js/toastr.min.js') }}"></script>
     @yield('script')
 </body>
 </html>

@@ -35,7 +35,7 @@
             <li class="treeview">
                 <a href="#"> <i class="fa fa-edit"></i> <span>এরিয়া</span> <span class="pull-right-container"> <i class="fa fa-angle-down pull-right"></i> </span> </a>
                 <ul class="treeview-menu" SA>
-                    <li><a href="divisions.php"><i class="fa fa-circle-o"></i> বিভাগ </a></li>
+                    <li><a href="{{route('admin.division.index')}}"><i class="fa fa-circle-o"></i> বিভাগ </a></li>
                     <li><a href="districts.php"><i class="fa fa-circle-o"></i> জেলা </a></li>
                     <li><a href="upazila.php"><i class="fa fa-circle-o"></i>  উপজেলা </a></li>
                     <li><a href="unions.php"><i class="fa fa-circle-o"></i>  পৌরসভা/ইউনিয়ন </a></li>

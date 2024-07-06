@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,14 +27,15 @@
     <link rel="stylesheet" href="{{asset('Backend/assets/css/style.css')}}">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <!-- jQuery 2.2.3 -->
-    <script src="{{asset('Backend/assets/js/jquery.min.js')}}"></script>
+     <!-- jQuery 2.2.3 -->
+     <script src="{{asset('Backend/assets/js/jquery.min.js')}}"></script>
     <!-- DataTables -->
     <script src="{{asset('Backend/assets/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('Backend/assets/js/dataTables.bootstrap.min.js')}}"></script>
     <!--datepicker-->
     <script src="{{asset('Backend/assets/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('Backend/assets/js/bootstrap-timepicker.min.js')}}"></script>
+  
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -65,6 +66,7 @@
     <!--<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
     <!-- ChartJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     @yield('script')
 </body>
 </html>

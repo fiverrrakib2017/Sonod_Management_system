@@ -1,23 +1,16 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+/*Backend Route*/
+Route::get('/admin/login', [AdminController::class, 'login_form'])->name('admin.login');
+Route::post('login-functionality',[AdminController::class,'login_functionality'])->name('login.functionality');
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::group(['middleware'=>'admin'],function(){
+    Route::get('admin/logout',[AdminController::class,'logout'])->name('admin.logout');
+    Route::get('/admin/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
+    Route::post('/admin/get_dashboard_data',[AdminController::class,'get_data'])->name('admin.dashboard_get_all_data');
 
-Route::get('/another',function(){
-    return Inertia::render('Division');
-})->name('another');
+   
+});

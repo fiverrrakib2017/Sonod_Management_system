@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Upozila extends Model
 {
     use HasFactory;
+    public function zila(){
+        return $this->belongsTo(District::class,'district_id','id');
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Division\DivisionController;
+use App\Http\Controllers\Backend\Upzila\UpzilaController;
 use App\Http\Controllers\Backend\Zila\ZilaController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,9 +33,14 @@ Route::middleware('admin')->group(function () {
         Route::post('/delete', 'delete')->name('admin.zila.delete');
         Route::get('/edit/{id}', 'edit')->name('admin.zila.edit');
         Route::post('/update', 'update')->name('admin.zila.update');
+        Route::get('/get-zila/{division_id}','get_zila')->name('admin.zila.get_zila');
     });
     /** Upozila Management Route **/
-    Route::prefix('admin/upozila')->controller(ZilaController::class)->group(function(){
-
+    Route::prefix('admin/upzila')->controller(UpzilaController::class)->group(function(){
+        Route::get('/list', 'index')->name('admin.upzila.index'); 
+        Route::get('/all_data', 'all_data')->name('admin.upzila.all_data'); 
+        Route::post('/store', 'store')->name('admin.upzila.store'); 
+        Route::get('/edit/{id}', 'edit')->name('admin.upzila.edit'); 
+        Route::post('/update', 'update')->name('admin.upzila.update');
     });
 });

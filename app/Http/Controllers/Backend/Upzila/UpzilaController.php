@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Zila;
-
+namespace App\Http\Controllers\Backend\Upzila;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\District;
 use App\Models\Division;
+use App\Models\Upozila;
 use App\Services\ValidationService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-class ZilaController extends Controller
+class UpzilaController extends Controller
 {
     protected  $newInstance; 
     public function __construct(ValidationService $ValidationService)
@@ -19,7 +18,8 @@ class ZilaController extends Controller
     private function validation($request){
         $rules = [
             'division_id' => 'required|integer',
-            'district_name' => 'required|string|max:255',
+            'district_id' => 'required|integer',
+            'upzila_name' => 'required|string|max:255',
             'ename' => 'required|string|max:255',
         ];
 
@@ -29,8 +29,9 @@ class ZilaController extends Controller
         }
     }
     public function index(){
-       $division= Division::latest()->get();
-        return view('Backend.Pages.Zila.index',compact('division'));
+        $division= Division::latest()->get();
+        $district= District::latest()->get();
+        return view('Backend.Pages.Upzila.index',compact('district','division'));
     }
     public function all_data(Request $request){
         $search = $request->search['value'];
@@ -38,18 +39,18 @@ class ZilaController extends Controller
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
     
-        $query = District::with('division')->when($search, function ($query) use ($search) {
-            $query->where('district_name_bn', 'like', "%$search%")
-                  ->orWhere('district_name_en', 'like', "%$search%")
-                  ->orWhereHas('division', function ($query) use ($search) {
-                      $query->where('division_name_bn', 'like', "%$search%")
-                            ->orWhere('division_name_en', 'like', "%$search%");
+        $query = Upozila::with('zila')->when($search, function ($query) use ($search) {
+            $query->where('upozila_name_bn', 'like', "%$search%")
+                  ->orWhere('upozila_name_en', 'like', "%$search%")
+                  ->orWhereHas('zila', function ($query) use ($search) {
+                      $query->where('district_name_bn', 'like', "%$search%")
+                            ->orWhere('district_name_en', 'like', "%$search%");
                   });
         });
     
-        if ($request->has('division_id') && !empty($request->division_id)) {
-            $query->where('division_id', $request->division_id);
-        }
+        // if ($request->has('division_id') && !empty($request->division_id)) {
+        //     $query->where('division_id', $request->division_id);
+        // }
     
         $total = $query->count();
         $items = $query->orderBy($orderByColumn, $orderDirection)
@@ -68,16 +69,17 @@ class ZilaController extends Controller
         /*Validate the incoming request data*/
         $this->validation($request);
         // Create a new  instance
-        $object = new District();
+        $object = new Upozila();
         $object->division_id = $request->division_id;
-        $object->district_name_bn = $request->district_name;
-        $object->district_name_en = $request->ename;
+        $object->district_id = $request->district_id;
+        $object->upozila_name_bn = $request->upzila_name;
+        $object->upozila_name_en = $request->ename;
         $object->save();
 
         return response()->json(['success' =>true, 'message'=> 'Added Successfully']);
     }
     public function edit($id){
-        $data = District::find($id);
+        $data = Upozila::find($id);
         if (!$data) {
             return response()->json(['error' => 'Not found']);
         }
@@ -86,27 +88,13 @@ class ZilaController extends Controller
     public function update(Request $request){
         /*Validate the incoming request data*/
         $this->validation($request);
-        $object= District::find($request->id);
+        $object= Upozila::find($request->id);
         $object->division_id = $request->division_id;
-        $object->district_name_bn = $request->district_name;
-        $object->district_name_en = $request->ename;
+        $object->district_id = $request->district_id;
+        $object->upozila_name_bn = $request->upzila_name;
+        $object->upozila_name_en = $request->ename;
         $object->save();
 
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
-    }
-    public function delete(Request $request){
-        $country = District::find($request->id);
-
-        if (!$country) {
-            return response()->json(['error' => 'Not found']);
-        }
-        // Delete the Data
-        $country->delete();
-
-        return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
-    }
-    public function get_zila($id){
-        $districts = District::where('division_id', $id)->get();
-        return response()->json($districts);
     }
 }

@@ -14,7 +14,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- jvectormap -->
-    <link rel="stylesheet" href="assets/css/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="{{asset('Backend/assets/css/jquery-jvectormap-1.2.2.css')}}">
     <!-- DataTables -->
     <link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet"
         type="text/css">

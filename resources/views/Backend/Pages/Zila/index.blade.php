@@ -2,58 +2,83 @@
 @section('title','সনদ ব্যবস্থাপনা | Sonod Management ')
 @section('content')
 <section class="content-header">
-    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i> নতুন বিভাগ যুক্ত করুন</button>
+  <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i> নতুন জেলা যুক্ত করুন</button>
 </section> 
 <section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header">
-                </div>
-                <div class="box-body" style="">
-                    <div class="box" style="border-top: none;">
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="datatable1"
-                                class="table table-bordered table-striped table-responsive">
-                                <thead class="data-table-head">
-                                    <tr class="data-table-head-row">
-                                        <th>ক্রমিক নং </th>
-                                        <th>বিভাগ নাম</th>
-                                        <th>বিভাগ নাম (ইংরজিতে)</th>
-                                        <th>ডিলিট/পরিবর্তন </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <div class="col-md-4 col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label">বিভাগ</label>
+                            <select id="search_division_id" class="form-control" required="">
+                                <option value="">---নির্বাচন করুন---</option>
+                                <option value="1">ঢাকা</option>
+                                <option value="2">চট্টগ্রাম</option>
+                                <option value="3">রাজশাহী</option>
+                                <option value="4">খুলনা</option>
+                                <option value="5">সিলেট</option>
+                                <option value="6">বরিশাল </option>
+                                <option value="7">রংপুর </option>
+                                <option value="8">ময়মনসিংহ </option>
+                            </select> 
+                        </div>
+                    </div>
+                            </div>
+                            <div class="box-body" style="">
+                                <div class="box" style="border-top: none;">
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <table id="datatable1"
+                                            class="table table-bordered table-striped table-responsive">
+                                            <thead class="data-table-head">
+                                                <tr class="data-table-head-row">
+                                                    <th>ক্রমিক নং </th>
+                                                    <th>জেলার নাম</th>
+                                                    <th>জেলার নাম (ইংরজিতে)</th>
+                                                    <th>বিভাগ </th>
+                                                    <th>ডিলিট/পরিবর্তন </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody> </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </section>
 <!-- District Add Modal Start -->
 <div class="modal fade" id="addModal">
         <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">নতুন বিভাগ যুক্ত করুন
+              <h4 class="modal-title">নতুন জেলা যুক্ত করুন
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button></h4>
             </div>
             <div class="modal-body">
-              <form action="{{route('admin.division.store')}}" method="POST" enctype="multipart/form-data">
+              <form action="{{route('admin.zila.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                     <div class="form-group">
-                        <label>বিভাগ নাম (বাংলা ):</label>
-                        <input name="division_name_bn" placeholder="বিভাগ নাম বাংলাতে লিখুন" class="form-control" type="text" >
+                        <label>বিভাগ:</label>
+                        <select name="division_id" class="form-control" type="text" >
+                          @foreach ($division as $item)
+                          <option value="{{$item->id}}">{{$item->division_name_en}}---   ({{$item->division_name_bn}})</option>   
+                          @endforeach
+                         
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>বিভাগ নাম (ইংরেজী)</label>
-                        <input name="division_name_en" placeholder="বিভাগ নাম ইংরেজিতে লিখুন" class="form-control" type="text" >
+                        <label>জেলার নাম (বাংলা ):</label>
+                        <input name="district_name" placeholder="জেলার নাম বাংলাতে লিখুন" class="form-control" type="text" >
+                    </div>                    
+                    <div class="form-group">
+                        <label>জেলার নাম (ইংরেজী)</label>
+                        <input name="ename" placeholder="জেলার নাম ইংরেজিতে লিখুন" class="form-control" type="text" >
                     </div>                    
                     <div class="modal-footer justify-content-between">
                         <button data-dismiss="modal" type="button" class="btn btn-danger">Cancel</button>
@@ -73,26 +98,36 @@
         <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">বিভাগ আপডেট করুন
+              <h4 class="modal-title">জেলার আপডেট করুন
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button></h4>
             </div>
             <div class="modal-body">
-              <form action="{{route('admin.division.update')}}" method="POST" enctype="multipart/form-data">@csrf
-                        <input name="id"  type="hidden" >
-                      <div class="form-group">
-                        <label>বিভাগ নাম (বাংলা ):</label>
-                        <input name="division_name_bn" placeholder="বিভাগ নাম বাংলাতে লিখুন" class="form-control" type="text" >
-                      </div>
-                      <div class="form-group">
-                        <label>বিভাগ নাম (ইংরেজী)</label>
-                        <input name="division_name_en" placeholder="বিভাগ নাম ইংরেজিতে লিখুন" class="form-control" type="text" >
-                      </div>                    
-                      <div class="modal-footer justify-content-between">
+            <form action="{{route('admin.zila.update')}}" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="id">
+                @csrf
+                    <div class="form-group">
+                        <label>বিভাগ:</label>
+                        <select name="division_id" class="form-control" type="text" >
+                          @foreach ($division as $item)
+                          <option value="{{$item->id}}">{{$item->division_name_en}}---   ({{$item->division_name_bn}})</option>   
+                          @endforeach
+                         
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>জেলার নাম (বাংলা ):</label>
+                        <input name="district_name" placeholder="জেলার নাম বাংলাতে লিখুন" class="form-control" type="text" >
+                    </div>                    
+                    <div class="form-group">
+                        <label>জেলার নাম (ইংরেজী)</label>
+                        <input name="ename" placeholder="জেলার নাম ইংরেজিতে লিখুন" class="form-control" type="text" >
+                    </div>                    
+                    <div class="modal-footer justify-content-between">
                         <button data-dismiss="modal" type="button" class="btn btn-danger">Cancel</button>
                         <button type="submit" class="btn btn-success">সংরক্ষন করুন</button>
-                      </div>
+                    </div>
                 </form>
             </div>
           </div>
@@ -104,12 +139,12 @@
 
       <div id="DivdeleteModal" class="modal fade">
     <div class="modal-dialog modal-confirm">
-        <form action="{{route('admin.division.delete')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('admin.zila.delete')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="modal-content">
             <div class="modal-header flex-column">
                 <div class="icon-box">
-                <i class="fa fa-trash"></i>
+                    <i class="fa fa-trash"></i>
                 </div>
                 <h4 class="modal-title w-100">Are you sure?</h4>
                 <input type="hidden" name="id" value="">
@@ -130,21 +165,13 @@
 
 
 @section('script')
-
 <script type="text/javascript">
-     $(document).ready(function(){
-
-        var table=$("#datatable1").DataTable({
+  $(document).ready(function(){
+    var table=$("#datatable1").DataTable({
         "processing":true,
         "responsive": true,
         "serverSide":true,
-        beforeSend: function () {
-            //$('#preloader').addClass('active');
-        },
-        complete: function(){
-            //$('.product_loading').css({"display":"none"});
-        },
-        ajax: "{{ route('admin.division.all_data') }}",
+        ajax: "{{ route('admin.zila.all_data') }}",
             type:'GET',
             "beforeSend": function (request) {
                 request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
@@ -159,10 +186,13 @@
             "data":"id"
             },
             {
-            "data":"division_name_bn"
+            "data":"district_name_bn"
             },
             {
-            "data":"division_name_en"
+            "data":"district_name_en"
+            },
+            {
+            "data":"division.division_name_en"
             },
             {
             "data":null,
@@ -177,12 +207,11 @@
         ],
 
         });
-
-    });
-    /** Handle edit button click**/
-    $('#datatable1 tbody').on('click', '.edit-btn', function () {
+  });
+  /** Handle edit button click**/
+  $('#datatable1 tbody').on('click', '.edit-btn', function () {
       var id = $(this).data('id');
-      var editUrl = '{{ route("admin.division.edit", ":id") }}';
+      var editUrl = '{{ route("admin.zila.edit", ":id") }}';
       var url = editUrl.replace(':id', id);
       $.ajax({
           type: 'GET',
@@ -191,8 +220,9 @@
               if (response.success) {
                 $('#editModal').modal('show');
                 $('#editModal input[name="id"]').val(response.data.id);
-                $('#editModal input[name="division_name_en"]').val(response.data.division_name_en);
-                $('#editModal input[name="division_name_bn"]').val(response.data.division_name_bn);
+                $('#editModal select[name="division_id"]').val(response.data.division_id);
+                $('#editModal input[name="district_name"]').val(response.data.district_name_bn);
+                $('#editModal input[name="ename"]').val(response.data.district_name_en);
               } else {
                 toastr.error("Error fetching data for edit!");
               }
@@ -323,11 +353,10 @@
         form.find(':input').prop('disabled', true);
       },
       success: function (response) {
-
-        $('#editModal').modal('hide');
-        $('#editModal form')[0].reset();
         if (response.success) {
             submitBtn.html(originalBtnText);
+            $('#editModal').modal('hide');
+            $('#editModal form')[0].reset();
             toastr.success(response.message);
             $('#datatable1').DataTable().ajax.reload( null , false);
         }
@@ -349,6 +378,6 @@
         }
     });
   });
-  </script>
+</script>
 
 @endsection

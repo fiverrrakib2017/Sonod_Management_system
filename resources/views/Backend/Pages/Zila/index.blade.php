@@ -12,16 +12,11 @@
                                 <div class="col-md-4 col-sm-3">
                         <div class="form-group">
                             <label class="control-label">বিভাগ</label>
-                            <select id="search_division_id" class="form-control" required="">
+                            <select name="search_division_id" class="form-control" id="searchDivision">
                                 <option value="">---নির্বাচন করুন---</option>
-                                <option value="1">ঢাকা</option>
-                                <option value="2">চট্টগ্রাম</option>
-                                <option value="3">রাজশাহী</option>
-                                <option value="4">খুলনা</option>
-                                <option value="5">সিলেট</option>
-                                <option value="6">বরিশাল </option>
-                                <option value="7">রংপুর </option>
-                                <option value="8">ময়মনসিংহ </option>
+                                @foreach ($division as $item)
+                                <option value="{{$item->id}}">{{$item->division_name_bn}}</option>   
+                                @endforeach
                             </select> 
                         </div>
                     </div>
@@ -166,48 +161,50 @@
 
 @section('script')
 <script type="text/javascript">
-  $(document).ready(function(){
-    var table=$("#datatable1").DataTable({
-        "processing":true,
-        "responsive": true,
-        "serverSide":true,
-        ajax: "{{ route('admin.zila.all_data') }}",
-            type:'GET',
-            "beforeSend": function (request) {
-                request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+  $(document).ready(function() {
+    var table = $('#datatable1').DataTable({
+        processing: true,
+        responsive: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('admin.zila.all_data') }}",
+            type: 'GET',
+            data: function(d) {
+                d.division_id = $('#searchDivision').val();
             },
+            beforeSend: function(request) {
+                request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+            }
+        },
         language: {
             searchPlaceholder: 'Search...',
             sSearch: '',
-            lengthMenu: '_MENU_ items/page',
+            lengthMenu: '_MENU_ items/page'
         },
-        "columns":[
+        columns: [
+            { data: 'id' },
+            { data: 'district_name_bn' },
+            { data: 'district_name_en' },
+            { data: 'division.division_name_en' },
             {
-            "data":"id"
-            },
-            {
-            "data":"district_name_bn"
-            },
-            {
-            "data":"district_name_en"
-            },
-            {
-            "data":"division.division_name_en"
-            },
-            {
-            "data":null,
-            render:function(data,type,row){
-                return `<button class="btn btn-primary btn-sm mr-3 edit-btn" data-id="${row.id}"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-danger btn-sm mr-3 delete-btn" data-toggle="modal" data-target="#deleteModal" data-id="${row.id}"><i class="fa fa-trash"></i></button>`
+                data: null,
+                render: function(data, type, row) {
+                    return `<button class="btn btn-primary btn-sm mr-3 edit-btn" data-id="${row.id}"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm mr-3 delete-btn" data-toggle="modal" data-target="#deleteModal" data-id="${row.id}"><i class="fa fa-trash"></i></button>`;
+                }
             }
-            },
         ],
-        order:[
+        order: [
             [0, "desc"]
-        ],
+        ]
+    });
 
-        });
-  });
+    $('#searchDivision').change(function() {
+       // table.ajax.reload();
+       $('#datatable1').DataTable().ajax.reload( null , false);
+    });
+});
+
   /** Handle edit button click**/
   $('#datatable1 tbody').on('click', '.edit-btn', function () {
       var id = $(this).data('id');

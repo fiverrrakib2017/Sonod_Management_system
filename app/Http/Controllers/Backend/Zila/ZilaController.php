@@ -38,7 +38,7 @@ class ZilaController extends Controller
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
     
-        $object = District::with('division')->when($search, function ($query) use ($search) {
+        $query = District::with('division')->when($search, function ($query) use ($search) {
             $query->where('district_name_bn', 'like', "%$search%")
                   ->orWhere('district_name_en', 'like', "%$search%")
                   ->orWhereHas('division', function ($query) use ($search) {
@@ -46,10 +46,13 @@ class ZilaController extends Controller
                             ->orWhere('division_name_en', 'like', "%$search%");
                   });
         });
-        
     
-        $total = $object->count();
-        $items = $object->orderBy($orderByColumn, $orderDirection)
+        if ($request->has('division_id') && !empty($request->division_id)) {
+            $query->where('division_id', $request->division_id);
+        }
+    
+        $total = $query->count();
+        $items = $query->orderBy($orderByColumn, $orderDirection)
                        ->skip($request->start)
                        ->take($request->length)
                        ->get();
@@ -60,8 +63,7 @@ class ZilaController extends Controller
             'recordsFiltered' => $total,
             'data' => $items,
         ]);
-    }
-    
+    }    
     public function store(Request $request){
         /*Validate the incoming request data*/
         $this->validation($request);

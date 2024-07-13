@@ -31,7 +31,8 @@ class UpzilaController extends Controller
     public function index(){
         $division= Division::latest()->get();
         $district= District::latest()->get();
-        return view('Backend.Pages.Upzila.index',compact('district','division'));
+        $upzila=Upozila::latest()->get();
+        return view('Backend.Pages.Upzila.index',compact('district','division','upzila'));
     }
     public function all_data(Request $request){
         $search = $request->search['value'];
@@ -96,5 +97,16 @@ class UpzilaController extends Controller
         $object->save();
 
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
+    }
+    public function delete(Request $request){
+        $country = Upozila::find($request->id);
+
+        if (!$country) {
+            return response()->json(['error' => 'Not found']);
+        }
+        // Delete the Data
+        $country->delete();
+
+        return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
     }
 }

@@ -13,28 +13,22 @@
                     <div class="col-md-4 col-sm-3">
                         <div class="form-group">
                             <label class="control-label">বিভাগ</label>
-                            <select id="search_division_id" class="form-control" required="">
+                            <select id="searchDivision" class="form-control" required="">
                                 <option value="">---নির্বাচন করুন---</option>
-                                <option value="1">ঢাকা</option>
-                                <option value="2">চট্টগ্রাম</option>
-                                <option value="3">রাজশাহী</option>
-                                <option value="4">খুলনা</option>
-                                <option value="5">সিলেট</option>
-                                <option value="6">বরিশাল </option>
-                                <option value="7">রংপুর </option>
-                                <option value="8">ময়মনসিংহ </option>
+                                @foreach ($division as $item)
+                                  <option value="{{$item->id}}">{{$item->division_name_bn}}</option>   
+                                @endforeach
                             </select> 
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-3">
                         <div class="form-group">
                             <label class="control-label">জেলা</label>
-                            <select id="search_division_id" class="form-control" required="">
+                            <select id="search_zila_id" class="form-control" required="">
                                 <option value="">---নির্বাচন করুন---</option>
-                                <option value="1">জামালপুর</option>
-                                <option value="2">শেরপুর</option>
-                                <option value="3">নেত্রকোনা</option>
-                                <option value="8">ময়মনসিংহ </option>
+                                @foreach ($district as $item)
+                                  <option value="{{$item->id}}">{{$item->district_name_bn}}</option>   
+                                @endforeach
                             </select> 
                         </div>
                     </div>
@@ -43,10 +37,9 @@
                             <label class="control-label">উপজেলা</label>
                             <select id="search_division_id" class="form-control" required="">
                                 <option value="">---নির্বাচন করুন---</option>
-                                <option value="1">মেলান্দহ</option>
-                                <option value="2">মাদারগঞ্জ</option>
-                                <option value="3">জামালপুর সদর</option>
-                                <option value="8">বকশিগঞ্জ</option>
+                                @foreach ($upzila as $item)
+                                  <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>   
+                                @endforeach
                             </select> 
                         </div>
                     </div>
@@ -180,7 +173,7 @@
 
       <div id="DivdeleteModal" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form action="{{route('admin.zila.delete')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.upzila.delete')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header flex-column">

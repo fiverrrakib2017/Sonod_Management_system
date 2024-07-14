@@ -42,6 +42,7 @@ Route::middleware('admin')->group(function () {
         Route::post('/store', 'store')->name('admin.upzila.store'); 
         Route::get('/edit/{id}', 'edit')->name('admin.upzila.edit'); 
         Route::post('/update', 'update')->name('admin.upzila.update');
-        Route::post('/delete', 'delete')->name('admin.upzila.delete');
+        Route::post('/delete', 'delete')->name('admin.upzila.delete'); 
+        Route::get('/get-upzila/{zila_id}','get_upzila')->name('admin.upzila.get_upzila');
     });
 });

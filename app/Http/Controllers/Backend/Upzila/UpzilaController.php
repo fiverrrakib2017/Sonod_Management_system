@@ -49,9 +49,16 @@ class UpzilaController extends Controller
                   });
         });
     
-        // if ($request->has('division_id') && !empty($request->division_id)) {
-        //     $query->where('division_id', $request->division_id);
-        // }
+        if ($request->has('division_id') && !empty($request->division_id)) {
+            $query->where('division_id', $request->division_id);
+        }
+        if ($request->has('district_id') && !empty($request->district_id)) {
+            $query->where('district_id', $request->district_id);
+        }
+       
+        if ($request->has('upzila_name') && !empty($request->upzila_name)) {
+            $query->where('upozila_name_bn', 'LIKE', '%' . $request->upzila_name . '%');
+        }
     
         $total = $query->count();
         $items = $query->orderBy($orderByColumn, $orderDirection)
@@ -108,5 +115,9 @@ class UpzilaController extends Controller
         $country->delete();
 
         return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
+    }
+    public function get_upzila($id){
+        $object = Upozila::where('district_id', $id)->get();
+        return response()->json($object);
     }
 }

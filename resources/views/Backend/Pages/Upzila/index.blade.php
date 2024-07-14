@@ -26,20 +26,20 @@
                             <label class="control-label">জেলা</label>
                             <select id="search_zila_id" class="form-control" required="">
                                 <option value="">---নির্বাচন করুন---</option>
-                                @foreach ($district as $item)
+                                <!-- @foreach ($district as $item)
                                   <option value="{{$item->id}}">{{$item->district_name_bn}}</option>   
-                                @endforeach
+                                @endforeach -->
                             </select> 
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-3">
                         <div class="form-group">
                             <label class="control-label">উপজেলা</label>
-                            <select id="search_division_id" class="form-control" required="">
+                            <select id="search_upzila_id" class="form-control" required="">
                                 <option value="">---নির্বাচন করুন---</option>
-                                @foreach ($upzila as $item)
+                                <!-- @foreach ($upzila as $item)
                                   <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>   
-                                @endforeach
+                                @endforeach -->
                             </select> 
                         </div>
                     </div>
@@ -208,9 +208,11 @@
         ajax: {
             url: "{{ route('admin.upzila.all_data') }}",
             type: 'GET',
-            // data: function(d) {
-            //     d.division_id = $('#searchDivision').val();
-            // },
+            data: function(d) {
+                d.division_id = $('#searchDivision').val();
+                d.district_id  = $('#search_zila_id').val();
+                d.upzila_name  = $('#search_upzila_id').val();
+            },
             beforeSend: function(request) {
                 request.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
             }
@@ -240,10 +242,15 @@
         ]
     });
 
-    // $('#searchDivision').change(function() {
-    //    // table.ajax.reload();
-    //    $('#datatable1').DataTable().ajax.reload( null , false);
-    // });
+    $('#searchDivision').change(function() {
+       $('#datatable1').DataTable().ajax.reload( null , false);
+    });
+    $('#search_zila_id').change(function() {
+       $('#datatable1').DataTable().ajax.reload( null , false);
+    });
+    $('#search_upzila_id').change(function() {
+       $('#datatable1').DataTable().ajax.reload( null , false);
+    });
 });
 
   $(document).on('change','#divisionSelect',function(){
@@ -266,6 +273,50 @@
     } else {
         $('#districtSelect').empty();
         $('#districtSelect').append('<option>---নির্বাচন করুন---</option>');
+    }
+  });
+  $(document).on('change','#searchDivision',function(){
+    var divisionId = $(this).val();
+    var _prev_url = '{{ route("admin.zila.get_zila", ":id") }}';
+    var url = _prev_url.replace(':id', divisionId);
+    if (divisionId) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#search_zila_id').empty();
+                $('#search_zila_id').append('<option>---নির্বাচন করুন---</option>');
+                $.each(data, function (key, value) {
+                    $('#search_zila_id').append('<option value="' + value.id + '">' + value.district_name_bn + '</option>');
+                });
+            }
+        });
+    } else {
+        $('#search_zila_id').empty();
+        $('#search_zila_id').append('<option>---নির্বাচন করুন---</option>');
+    }
+  });
+  $(document).on('change','#search_zila_id',function(){
+    var zilaId = $(this).val();
+    var _prev_url = '{{ route("admin.upzila.get_upzila", ":id") }}';
+    var url = _prev_url.replace(':id', zilaId);
+    if (zilaId) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#search_upzila_id').empty();
+                $('#search_upzila_id').append('<option>---নির্বাচন করুন---</option>');
+                $.each(data, function (key, value) {
+                    $('#search_upzila_id').append('<option value="' + value.upozila_name_bn + '">' + value.upozila_name_bn + '</option>');
+                });
+            }
+        });
+    } else {
+        $('#search_upzila_id').empty();
+        $('#search_upzila_id').append('<option>---নির্বাচন করুন---</option>');
     }
   });
 

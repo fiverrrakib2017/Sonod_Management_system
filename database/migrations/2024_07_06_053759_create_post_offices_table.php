@@ -18,7 +18,7 @@ return new class extends Migration
 	        $table->unsignedBigInteger('upozila_id');
             $table->unsignedBigInteger('union_id');
             $table->string('post_office_name_bn');
-            $table->string('union_office_name_en');
+            $table->string('post_office_name_en');
             $table->timestamps();
 
             $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade');

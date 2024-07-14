@@ -2,7 +2,7 @@
 @section('title','সনদ ব্যবস্থাপনা | Sonod Management ')
 @section('content')
 <section class="content-header">
-    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i>  নতুন পৌরসভা/ইউনিয়ন যুক্ত করুন</button>
+    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i>নতুন পোস্ট অফিস যুক্ত করুন</button>
 </section>         
 
 <section class="content">
@@ -51,16 +51,16 @@
                                 <table id="datatable1" class="table table-bordered table-striped">
                                     <thead class="data-table-head">
                                         <tr class="data-table-head-row">
-                                            <th>ক্রমিক নং</th>
+                                            <th>ক্রমিক নং </th>
                                             <th>জেলার নাম</th>
-                                            <th>জেলার নাম (ইংরেজিতে)</th>
+                                            <th>জেলার নাম (ইংরজিতে)</th>
                                             <th>উপজেলা নাম</th>
-                                            <th>উপজেলা নাম (ইংরেজিতে)</th>
+                                            <th>উপজেলা নাম (ইংরজিতে)</th>
                                             <th>ইউনিয়ন নাম</th>
-                                            <th>ইউনিয়ন নাম (ইংরেজিতে)</th>
-                                            <th>ওয়েব সাইট</th>
-                                            <th>ই-মেইল</th>
-                                            <th>ডিলিট/পরিবর্তন</th>
+                                            <th>ইউনিয়ন নাম (ইংরজিতে)</th>
+                                            <th>পোস্ট অফিস</th>
+                                            <th>পোস্ট অফিস (ইংরেজিতে)</th>
+                                            <th>ডিলিট/পরিবর্তন </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,13 +81,13 @@
         <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">নতুন ইউনিয়ন যুক্ত করুন
+              <h4 class="modal-title">নতুন পোস্ট অফিস যুক্ত করুন
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button></h4>
             </div>
             <div class="modal-body">
-              <form action="{{route('admin.union.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('admin.post_office.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                         <label>বিভাগ: </label>
@@ -102,30 +102,37 @@
                         <label>জেলা: </label>
                         <select required="" id="districtSelect" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                             <option>---নির্বাচন করুন---</option>
+                            @foreach ($district as $item)
+                            <option value="{{$item->id}}">{{$item->district_name_bn}}</option>   
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label>উপজেলা: </label>
                         <select required="" id="upzilaSelect" name="upzila_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                             <option>---নির্বাচন করুন---</option>
+                            @foreach ($upzila as $item)
+                            <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>   
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>ইউনিয়ন নাম (বাংলা ):</label>
-                        <input name="name" placeholder="ইউনিয়ন নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                        <label>ইউনিয়ন: </label>
+                        <select required="" id="unionSelect" name="union_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option>---নির্বাচন করুন---</option>
+                            @foreach ($union as $item)
+                            <option value="{{$item->id}}">{{$item->union_name_bn}}</option>   
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>ইউনিয়ন নাম (ইংরেজী)</label>
-                        <input name="ename" placeholder="ইউনিয়ন নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
-                    </div>                    
+                        <label>পোস্ট অফিস নাম (বাংলা ):</label>
+                        <input name="name" placeholder="নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                    </div>
                     <div class="form-group">
-                        <label>ইউনিয়ন ওয়েব সাইট</label>
-                        <input name="website" placeholder="ইউনিয়ন ওয়েব সাইট লিখুন" class="form-control" type="text" required="">
+                        <label>পোস্ট অফিস নাম (ইংরেজী)</label>
+                        <input name="ename" placeholder="নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
                     </div>                    
-                    <div class="form-group">
-                        <label>ইউনিয়ন ই-মেইল</label>
-                        <input name="email" placeholder="ইউনিয়ন ই-মেইল লিখুন" class="form-control" type="email" required="">
-                    </div>                  
                     <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-success">সংরক্ষন করুন</button>
                     </div>
@@ -143,13 +150,13 @@
         <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">ইউনিয়ন আপডেট করুন
+              <h4 class="modal-title">পোস্ট অফিস আপডেট করুন
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button></h4>
             </div>
             <div class="modal-body">
-            <form action="{{route('admin.union.update')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('admin.post_office.update')}}" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id">
                 @csrf
                 <div class="form-group">
@@ -180,21 +187,22 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>ইউনিয়ন নাম (বাংলা ):</label>
-                        <input name="name" placeholder="ইউনিয়ন নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                        <label>ইউনিয়ন: </label>
+                        <select required="" id="unionSelect" name="union_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option>---নির্বাচন করুন---</option>
+                            @foreach ($union as $item)
+                            <option value="{{$item->id}}">{{$item->union_name_bn}}</option>   
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>ইউনিয়ন নাম (ইংরেজী)</label>
-                        <input name="ename" placeholder="ইউনিয়ন নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
-                    </div>                    
+                        <label>পোস্ট অফিস নাম (বাংলা ):</label>
+                        <input name="name" placeholder="নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                    </div>
                     <div class="form-group">
-                        <label>ইউনিয়ন ওয়েব সাইট</label>
-                        <input name="website" placeholder="ইউনিয়ন ওয়েব সাইট লিখুন" class="form-control" type="text" required="">
+                        <label>পোস্ট অফিস নাম (ইংরেজী)</label>
+                        <input name="ename" placeholder="নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
                     </div>                    
-                    <div class="form-group">
-                        <label>ইউনিয়ন ই-মেইল</label>
-                        <input name="email" placeholder="ইউনিয়ন ই-মেইল লিখুন" class="form-control" type="email" required="">
-                    </div>                  
                     <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-success">সংরক্ষন করুন</button>
                     </div>
@@ -209,7 +217,7 @@
 
       <div id="DivdeleteModal" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form action="{{route('admin.union.delete')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.post_office.delete')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header flex-column">
@@ -242,7 +250,7 @@
         responsive: true,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.union.all_data') }}",
+            url: "{{ route('admin.post_office.all_data') }}",
             type: 'GET',
             data: function(d) {
                 d.division_id = $('#search_division_id').val();
@@ -262,12 +270,15 @@
             { data: 'id' },
             { data: 'zila.district_name_bn' },
             { data: 'zila.district_name_en' },
+
             { data: 'upzila.upozila_name_bn' },
             { data: 'upzila.upozila_name_en' },
-            { data: 'union_name_bn' },
-            { data: 'union_name_en' },
-            { data: 'union_website' },
-            { data: 'union_email' },
+
+            { data: 'union.union_name_bn' },
+            { data: 'union.union_name_en' },
+
+            { data: 'post_office_name_bn' },
+            { data: 'post_office_name_en' },
            
             {
                 data: null,
@@ -385,7 +396,7 @@
   /** Handle edit button click**/
   $('#datatable1 tbody').on('click', '.edit-btn', function () {
       var id = $(this).data('id');
-      var editUrl = '{{ route("admin.union.edit", ":id") }}';
+      var editUrl = '{{ route("admin.post_office.edit", ":id") }}';
       var url = editUrl.replace(':id', id);
       $.ajax({
           type: 'GET',
@@ -397,10 +408,9 @@
                 $('#editModal select[name="division_id"]').val(response.data.division_id);
                 $('#editModal select[name="district_id"]').val(response.data.district_id);
                 $('#editModal select[name="upzila_id"]').val(response.data.upozila_id );
-                $('#editModal input[name="name"]').val(response.data.union_name_bn);
-                $('#editModal input[name="ename"]').val(response.data.union_name_en);
-                $('#editModal input[name="website"]').val(response.data.union_website);
-                $('#editModal input[name="email"]').val(response.data.union_email);
+                $('#editModal select[name="union_id"]').val(response.data.union_id );
+                $('#editModal input[name="name"]').val(response.data.post_office_name_bn);
+                $('#editModal input[name="ename"]').val(response.data.post_office_name_en);
               } else {
                 toastr.error("Error fetching data for edit!");
               }

@@ -38,7 +38,7 @@
     <!--datepicker-->
     <script src="{{asset('Backend/assets/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('Backend/assets/js/bootstrap-timepicker.min.js')}}"></script>
-    
+    @yield('style')
   
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

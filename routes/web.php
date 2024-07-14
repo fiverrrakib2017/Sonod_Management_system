@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Division\DivisionController;
+use App\Http\Controllers\Backend\Union\UnionController;
 use App\Http\Controllers\Backend\Upzila\UpzilaController;
 use App\Http\Controllers\Backend\Zila\ZilaController;
 use Illuminate\Support\Facades\Route;
@@ -44,5 +45,11 @@ Route::middleware('admin')->group(function () {
         Route::post('/update', 'update')->name('admin.upzila.update');
         Route::post('/delete', 'delete')->name('admin.upzila.delete'); 
         Route::get('/get-upzila/{zila_id}','get_upzila')->name('admin.upzila.get_upzila');
+    });
+    /** Union Management Route **/
+    Route::prefix('admin/union')->controller(UnionController::class)->group(function(){
+        Route::get('/list', 'index')->name('admin.union.index'); 
+        Route::get('/all_data', 'all_data')->name('admin.union.all_data');
+        Route::post('/store', 'store')->name('admin.union.store'); 
     });
 });

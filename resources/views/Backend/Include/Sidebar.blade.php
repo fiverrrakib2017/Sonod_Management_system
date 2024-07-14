@@ -38,7 +38,7 @@
                     <li><a href="{{route('admin.division.index')}}"><i class="fa fa-circle-o"></i> বিভাগ </a></li>
                     <li><a href="{{route('admin.zila.index')}}"><i class="fa fa-circle-o"></i> জেলা </a></li>
                     <li><a href="{{route('admin.upzila.index')}}"><i class="fa fa-circle-o"></i>  উপজেলা </a></li>
-                    <li><a href="unions.php"><i class="fa fa-circle-o"></i>  পৌরসভা/ইউনিয়ন </a></li>
+                    <li><a href="{{route('admin.union.index')}}"><i class="fa fa-circle-o"></i>  পৌরসভা/ইউনিয়ন </a></li>
                     <li><a href="postoffice.php"><i class="fa fa-circle-o"></i> ডাকঘর </a></li>
                     <li><a href="village.php"><i class="fa fa-circle-o"></i> গ্রাম </a></li>
                     <li><a href="house.php"><i class="fa fa-circle-o"></i> বাড়ী </a></li>

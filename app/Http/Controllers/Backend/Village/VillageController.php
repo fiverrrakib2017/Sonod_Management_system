@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Union;
+namespace App\Http\Controllers\Backend\Village;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\District;
 use App\Models\Division;
 use App\Models\Union;
 use App\Models\Upozila;
+use App\Models\District;
+use App\Models\Post_office;
+use App\Models\Village;
+use Illuminate\Http\Request;
 use App\Services\ValidationService;
 
-class UnionController extends Controller
+class VillageController extends Controller
 {
     protected  $newInstance; 
     public function __construct(ValidationService $ValidationService)
@@ -21,10 +24,10 @@ class UnionController extends Controller
            'division_id' => 'required|exists:divisions,id',
             'district_id' => 'required|exists:districts,id',
             'upzila_id' => 'required|exists:upozilas,id',
+            'union_id' => 'required|exists:unions,id',
+            'post_office_id' => 'required|exists:post_offices,id',
             'name' => 'required|string|max:255',
             'ename' => 'required|string|max:255',
-            'website' => 'required|url|max:255',
-            'email' => 'required|email|max:255',
         ];
 
         $validation = $this->newInstance->check($request, $rules);
@@ -36,7 +39,9 @@ class UnionController extends Controller
         $division= Division::latest()->get();
         $district= District::latest()->get();
         $upzila=Upozila::latest()->get();
-        return view('Backend.Pages.Union.index',compact('district','division','upzila'));
+        $union=Union::latest()->get();
+        $post_office=Post_office::latest()->get();
+        return view('Backend.Pages.Village.index',compact('district','division','upzila','union','post_office'));
     }
     public function all_data(Request $request){
         $search = $request->search['value'];
@@ -44,12 +49,10 @@ class UnionController extends Controller
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
     
-        $query = Union::with('zila','upzila')->when($search, function ($query) use ($search) {
+        $query = Village::with('zila','upzila' , 'union','post_office')->when($search, function ($query) use ($search) {
 
-            $query->where('union_name_bn', 'like', "%$search%")
-                  ->orWhere('union_name_en', 'like', "%$search%")
-                  ->orWhere('union_website', 'like', "%$search%")
-                  ->orWhere('union_email', 'like', "%$search%")
+            $query->where('', 'like', "%$search%")
+                  ->orWhere('', 'like', "%$search%")
 
                   ->orWhereHas('zila', function ($query) use ($search) {
                       $query->where('district_name_bn', 'like', "%$search%")
@@ -58,6 +61,14 @@ class UnionController extends Controller
                   ->orWhereHas('upzila', function ($query) use ($search) {
                       $query->where('upozila_name_bn', 'like', "%$search%")
                             ->orWhere('upozila_name_en', 'like', "%$search%");
+                  })
+                  ->orWhereHas('union', function ($query) use ($search) {
+                      $query->where('union_name_bn', 'like', "%$search%")
+                            ->orWhere('union_name_en', 'like', "%$search%");
+                  })
+                  ->orWhereHas('post_office', function ($query) use ($search) {
+                      $query->where('post_office_name_bn', 'like', "%$search%")
+                            ->orWhere('post_office_name_en', 'like', "%$search%");
                   });
         });
     
@@ -69,6 +80,9 @@ class UnionController extends Controller
         }
         if ($request->has('upzila_id') && !empty($request->upzila_id)) {
             $query->where('upozila_id', $request->upzila_id);
+        }
+        if ($request->has('union_id') && !empty($request->union_id)) {
+            $query->where('union_id', $request->union_id);
         }
     
         $total = $query->count();
@@ -88,42 +102,47 @@ class UnionController extends Controller
         /*Validate the incoming request data*/
         $this->validation($request);
 
-        $object = new Union();
+        $object = new Village();
         $object->division_id=$request->division_id;
         $object->district_id=$request->district_id;
         $object->upozila_id=$request->upzila_id;
-        $object->union_website=$request->website;
-        $object->union_email=$request->email;
-        $object->union_name_bn=$request->name;
-        $object->union_name_en=$request->ename;
+        $object->union_id=$request->union_id;
+
+        $object->post_office_id=$request->post_office_id;
+
+        $object->village_name_bn=$request->name;
+        $object->village_name_en=$request->ename;
         $object->save();
 
         return response()->json(['success' =>true, 'message'=> 'Added Successfully']);
     }
     public function edit($id){
-        $data = Union::find($id);
+        $data = Village::find($id);
         if (!$data) {
             return response()->json(['error' => 'Not found']);
         }
         return response()->json(['success'=>true,'data' => $data]); 
     }
     public function update(Request $request){
+        
         /*Validate the incoming request data*/
         $this->validation($request);
-        $object= Union::find($request->id);
+        $object =Village::find($request->id);
         $object->division_id=$request->division_id;
         $object->district_id=$request->district_id;
         $object->upozila_id=$request->upzila_id;
-        $object->union_website=$request->website;
-        $object->union_email=$request->email;
-        $object->union_name_bn=$request->name;
-        $object->union_name_en=$request->ename;
+        $object->union_id=$request->union_id;
+
+        $object->post_office_id=$request->post_office_id;
+
+        $object->village_name_bn=$request->name;
+        $object->village_name_en=$request->ename;
         $object->save();
 
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
     }
     public function delete(Request $request){
-        $object = Union::find($request->id);
+        $object = Village::find($request->id);
 
         if (!$object) {
             return response()->json(['error' => 'Not found']);
@@ -133,8 +152,8 @@ class UnionController extends Controller
 
         return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
     }
-    public function get_union($id){
-        $object = Union::where('upozila_id', $id)->get();
-        return response()->json($object);
-    }
+    // public function get_upzila($id){
+    //     $object = Upozila::where('district_id', $id)->get();
+    //     return response()->json($object);
+    // }
 }

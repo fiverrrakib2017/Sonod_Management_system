@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Division\DivisionController;
 use App\Http\Controllers\Backend\Post_Office\Post_OfficeController;
 use App\Http\Controllers\Backend\Union\UnionController;
 use App\Http\Controllers\Backend\Upzila\UpzilaController;
+use App\Http\Controllers\Backend\Village\VillageController;
 use App\Http\Controllers\Backend\Zila\ZilaController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,15 +53,27 @@ Route::middleware('admin')->group(function () {
         Route::get('/list', 'index')->name('admin.union.index'); 
         Route::get('/all_data', 'all_data')->name('admin.union.all_data');
         Route::post('/store', 'store')->name('admin.union.store'); 
-        Route::post('/delete', 'delete')->name('admin.union.delete'); Route::get('/edit/{id}', 'edit')->name('admin.union.edit');  
-        Route::post('/update', 'update')->name('admin.union.update');
+        Route::post('/delete', 'delete')->name('admin.union.delete'); 
+        Route::get('/edit/{id}', 'edit')->name('admin.union.edit');  
+        Route::post('/update', 'update')->name('admin.union.update'); 
+        Route::get('/get-union/{upzila_id}','get_union')->name('admin.union.get_union');
     });
     /** Post Office Management Route **/
     Route::prefix('admin/post_office')->controller(Post_OfficeController::class)->group(function(){
         Route::get('/list', 'index')->name('admin.post_office.index'); 
         Route::get('/all_data', 'all_data')->name('admin.post_office.all_data');
          Route::post('/store', 'store')->name('admin.post_office.store'); 
-        Route::post('/delete', 'delete')->name('admin.post_office.delete'); Route::get('/edit/{id}', 'edit')->name('admin.post_office.edit');  
+        Route::post('/delete', 'delete')->name('admin.post_office.delete'); 
+        Route::get('/edit/{id}', 'edit')->name('admin.post_office.edit');  
          Route::post('/update', 'update')->name('admin.post_office.update');
+    });
+    /** Village Management Route **/
+    Route::prefix('admin/village')->controller(VillageController::class)->group(function(){
+        Route::get('/list', 'index')->name('admin.village.index'); 
+        Route::get('/all_data', 'all_data')->name('admin.village.all_data');
+         Route::post('/store', 'store')->name('admin.village.store'); 
+         Route::post('/delete', 'delete')->name('admin.village.delete'); 
+         Route::get('/edit/{id}', 'edit')->name('admin.village.edit');  
+         Route::post('/update', 'update')->name('admin.village.update');
     });
 });

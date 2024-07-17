@@ -446,6 +446,10 @@
 
                 { data: 'post_office.post_office_name_bn' },
                 { data: 'post_office.post_office_name_en' },
+
+                { data: 'village.village_name_bn' }, 
+                { data: 'village.village_name_en' },
+
                 { data: 'house_name_bn' },
                 { data: 'house_name_en' },
             

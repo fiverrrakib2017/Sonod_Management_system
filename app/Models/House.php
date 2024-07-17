@@ -20,4 +20,7 @@ class House extends Model
     public function post_office(){
         return $this->belongsTo(Post_office::class,'post_office_id','id');
     }
+    public function village(){
+        return $this->belongsTo(Village::class,'village_id','id');
+    }
 }

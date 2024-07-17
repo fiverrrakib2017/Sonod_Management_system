@@ -64,7 +64,7 @@ class HouseController extends Controller
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
     
-        $query = House::with('zila','upzila' , 'union','post_office')->when($search, function ($query) use ($search) {
+        $query = House::with('zila','upzila' , 'union','post_office','village')->when($search, function ($query) use ($search) {
 
             $query->where('house_name_bn', 'like', "%$search%")
                   ->orWhere('house_name_en', 'like', "%$search%")
@@ -84,6 +84,10 @@ class HouseController extends Controller
                   ->orWhereHas('post_office', function ($query) use ($search) {
                       $query->where('post_office_name_bn', 'like', "%$search%")
                             ->orWhere('post_office_name_en', 'like', "%$search%");
+                  })
+                  ->orWhereHas('village', function ($query) use ($search) {
+                      $query->where('village_name_bn', 'like', "%$search%")
+                            ->orWhere('village_name_en', 'like', "%$search%");
                   });
         });
     
@@ -128,16 +132,20 @@ class HouseController extends Controller
         $house->ward = $request->word_no;
         $house->house_name_bn = $request->house_name_bn;
         $house->house_name_en = $request->house_name_en;
+
         $house->house_owner_bn = $request->house_owner_bn;
+        $house->house_owner_en = $request->house_owner_en;
+
         $house->father_husband_name_bn = $request->father_husband_name_bn;
+        $house->father_husband_name_en = $request->father_husband_name_en;
+
         $house->nid_birth = $request->nid;
         $house->toilet = $request->toilet;
         $house->annual_house_rent = $request->yearly_rent;
         $house->why_of_living = $request->live_type;
         $house->type_of_institute = $request->institute_type;
-        $house->house_name_en = $request->house_name_en;
-        $house->house_owner_en = $request->house_owner_en;
-        $house->father_husband_name_en = $request->father_husband_name_en;
+       
+        
         $house->occupation = $request->occupation;
         $house->house_type = $request->house_type;
         $house->previous_due = $request->previous_due;

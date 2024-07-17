@@ -142,7 +142,7 @@ class HouseController extends Controller
         $house->nid_birth = $request->nid;
         $house->toilet = $request->toilet;
         $house->annual_house_rent = $request->yearly_rent;
-        $house->why_of_living = $request->live_type;
+        $house->live_type = $request->live_type;
         $house->type_of_institute = $request->institute_type;
        
         
@@ -154,7 +154,7 @@ class HouseController extends Controller
         return response()->json(['success' =>true, 'message'=> 'Added Successfully']);
     }
     public function edit($id){
-        $data = Village::find($id);
+        $data = House::find($id);
         if (!$data) {
             return response()->json(['error' => 'Not found']);
         }
@@ -164,22 +164,40 @@ class HouseController extends Controller
         
         /*Validate the incoming request data*/
         $this->validation($request);
-        $object =Village::find($request->id);
-        $object->division_id=$request->division_id;
-        $object->district_id=$request->district_id;
-        $object->upozila_id=$request->upzila_id;
-        $object->union_id=$request->union_id;
+        $house =House::find($request->id);
+        $house->division_id = $request->division_id;
+        $house->district_id = $request->district_id;
+        $house->upozila_id = $request->upzila_id;
+        $house->union_id = $request->union_id;
+        $house->post_office_id = $request->post_office_id;
+        $house->village_id = $request->village_id;
 
-        $object->post_office_id=$request->post_office_id;
+        $house->ward = $request->word_no;
+        $house->house_name_bn = $request->house_name_bn;
+        $house->house_name_en = $request->house_name_en;
 
-        $object->village_name_bn=$request->name;
-        $object->village_name_en=$request->ename;
-        $object->save();
+        $house->house_owner_bn = $request->house_owner_bn;
+        $house->house_owner_en = $request->house_owner_en;
+
+        $house->father_husband_name_bn = $request->father_husband_name_bn;
+        $house->father_husband_name_en = $request->father_husband_name_en;
+
+        $house->nid_birth = $request->nid;
+        $house->toilet = $request->toilet;
+        $house->annual_house_rent = $request->yearly_rent;
+        $house->live_type = $request->live_type;
+        $house->type_of_institute = $request->institute_type;
+       
+        
+        $house->occupation = $request->occupation;
+        $house->house_type = $request->house_type;
+        $house->previous_due = $request->previous_due;
+        $house->save();
 
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
     }
     public function delete(Request $request){
-        $object = Village::find($request->id);
+        $object = House::find($request->id);
 
         if (!$object) {
             return response()->json(['error' => 'Not found']);
@@ -189,8 +207,5 @@ class HouseController extends Controller
 
         return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
     }
-    // public function get_upzila($id){
-    //     $object = Upozila::where('district_id', $id)->get();
-    //     return response()->json($object);
-    // }
+    
 }

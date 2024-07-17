@@ -83,9 +83,9 @@ Route::middleware('admin')->group(function () {
     Route::prefix('admin/house')->controller(HouseController::class)->group(function(){
         Route::get('/list', 'index')->name('admin.house.index'); 
         Route::get('/all_data', 'all_data')->name('admin.house.all_data');
-          Route::post('/store', 'store')->name('admin.house.store'); 
+        Route::post('/store', 'store')->name('admin.house.store'); 
         //  Route::post('/delete', 'delete')->name('admin.village.delete'); 
-        //  Route::get('/edit/{id}', 'edit')->name('admin.village.edit');  
-        //  Route::post('/update', 'update')->name('admin.village.update');
+        Route::get('/edit/{id}', 'edit')->name('admin.house.edit');  
+        Route::post('/update', 'update')->name('admin.house.update');
     });
 });

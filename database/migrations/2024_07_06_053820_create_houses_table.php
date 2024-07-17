@@ -28,11 +28,11 @@ return new class extends Migration
 
             $table->string('father_husband_name_bn');
             $table->string('father_husband_name_en');
-            
+
             $table->string('nid_birth');
             $table->string('toilet');
             $table->string('annual_house_rent');
-            $table->string('why_of_living');
+            $table->string('live_type');
             $table->string('type_of_institute');
             $table->string('occupation');
             $table->string('house_type');

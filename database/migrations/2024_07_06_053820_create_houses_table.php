@@ -20,11 +20,15 @@ return new class extends Migration
             $table->unsignedBigInteger('post_office_id');
             $table->unsignedBigInteger('village_id');
             $table->string('ward');
-            $table->string('village_name_en');
             $table->string('house_name_bn');
             $table->string('house_name_en');
+
+            $table->string('house_owner_bn');
+            $table->string('house_owner_en');
+
             $table->string('father_husband_name_bn');
             $table->string('father_husband_name_en');
+            
             $table->string('nid_birth');
             $table->string('toilet');
             $table->string('annual_house_rent');

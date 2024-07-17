@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Admin\AdminController;
 use App\Http\Controllers\Backend\Division\DivisionController;
+use App\Http\Controllers\Backend\House\HouseController;
 use App\Http\Controllers\Backend\Post_Office\Post_OfficeController;
 use App\Http\Controllers\Backend\Union\UnionController;
 use App\Http\Controllers\Backend\Upzila\UpzilaController;
@@ -62,10 +63,11 @@ Route::middleware('admin')->group(function () {
     Route::prefix('admin/post_office')->controller(Post_OfficeController::class)->group(function(){
         Route::get('/list', 'index')->name('admin.post_office.index'); 
         Route::get('/all_data', 'all_data')->name('admin.post_office.all_data');
-         Route::post('/store', 'store')->name('admin.post_office.store'); 
+        Route::post('/store', 'store')->name('admin.post_office.store'); 
         Route::post('/delete', 'delete')->name('admin.post_office.delete'); 
         Route::get('/edit/{id}', 'edit')->name('admin.post_office.edit');  
-         Route::post('/update', 'update')->name('admin.post_office.update');
+        Route::post('/update', 'update')->name('admin.post_office.update');
+        Route::get('/get-post_office/{union_id}','get_post_office')->name('admin.post_office.get_post_office');
     });
     /** Village Management Route **/
     Route::prefix('admin/village')->controller(VillageController::class)->group(function(){
@@ -75,5 +77,15 @@ Route::middleware('admin')->group(function () {
          Route::post('/delete', 'delete')->name('admin.village.delete'); 
          Route::get('/edit/{id}', 'edit')->name('admin.village.edit');  
          Route::post('/update', 'update')->name('admin.village.update');
+         Route::get('/get_village/{post_office_id}','get_village')->name('admin.village.get_village');
+    });
+    /** House Management Route **/
+    Route::prefix('admin/house')->controller(HouseController::class)->group(function(){
+        Route::get('/list', 'index')->name('admin.house.index'); 
+        Route::get('/all_data', 'all_data')->name('admin.house.all_data');
+          Route::post('/store', 'store')->name('admin.house.store'); 
+        //  Route::post('/delete', 'delete')->name('admin.village.delete'); 
+        //  Route::get('/edit/{id}', 'edit')->name('admin.village.edit');  
+        //  Route::post('/update', 'update')->name('admin.village.update');
     });
 });

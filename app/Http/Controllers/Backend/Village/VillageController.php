@@ -152,8 +152,8 @@ class VillageController extends Controller
 
         return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
     }
-    // public function get_upzila($id){
-    //     $object = Upozila::where('district_id', $id)->get();
-    //     return response()->json($object);
-    // }
+    public function get_village($id){
+        $object = Village::where('post_office_id', $id)->get();
+        return response()->json($object);
+    }
 }

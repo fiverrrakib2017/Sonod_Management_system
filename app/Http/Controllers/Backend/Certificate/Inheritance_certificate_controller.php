@@ -166,7 +166,7 @@ class Inheritance_certificate_controller extends Controller
 }
 
     public function edit($id){
-        $data = Citizenship_certificate::find($id);
+        $data = Inheritance_certificate::find($id);
         if (!$data) {
             return response()->json(['error' => 'Not found']);
         }
@@ -176,7 +176,7 @@ class Inheritance_certificate_controller extends Controller
 
         /*Validate the incoming request data*/
         $this->validation($request);
-        $object =Citizenship_certificate::find($request->id);
+        $object =Inheritance_certificate::find($request->id);
         $object->division_id = $request->division_id;
         $object->district_id = $request->district_id;
         $object->upozila_id = $request->upzila_id;
@@ -209,7 +209,7 @@ class Inheritance_certificate_controller extends Controller
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
     }
     public function delete(Request $request){
-        $object = Citizenship_certificate::find($request->id);
+        $object = Inheritance_certificate::find($request->id);
 
         if (!$object) {
             return response()->json(['error' => 'Not found']);

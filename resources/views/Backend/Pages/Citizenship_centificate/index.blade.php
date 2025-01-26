@@ -2,7 +2,7 @@
 @section('title','সনদ ব্যবস্থাপনা | Sonod Management ')
 @section('content')
 <section class="content-header">
-    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#modal_citizenship_certification_add"><i class="fa fa-pencil"></i> নতুন নাগরিকত্ব সনদ আবেদন করুন</button>
+    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i> নতুন নাগরিকত্ব সনদ আবেদন করুন</button>
 </section>
 
 <section class="content">
@@ -42,7 +42,7 @@
     </div>
 </section>
       <!-- Citizenship Certification Add Modal Start -->
-        <div class="modal fade" id="modal_citizenship_certification_add">
+        <div class="modal fade" id="addModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -192,12 +192,159 @@
       <!--Add Modal End -->
 
       <!--Edit Modal Start -->
-
+      <div class="modal fade" id="editModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> নাগরিকত্ব সনদ আবেদন করুন
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="{{ route('admin.citizenship_certificate.update') }}" method="POST" enctype="multipart/form-data">@csrf
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>বিভাগ: </label>
+                                <input type="hidden" name="id" class="d-none">
+                                <select required="" id="division_id" name="division_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option>---নির্বাচন করুন---</option>
+                                    @foreach ($division as $item)
+                                        <option value="{{$item->id}}">{{$item->division_name_bn}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>উপজেলা: </label>
+                                <select required="" id="upzila_id" name="upzila_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option>---নির্বাচন করুন---</option>
+                                    @foreach ($upzila as $item)
+                                        <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>পোস্ট অফিস: </label>
+                                <select required="" id="post_office_id" name="post_office_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option>---নির্বাচন করুন---</option>
+                                     @foreach ($post_office as $item)
+                                        <option value="{{$item->id}}">{{$item->post_office_name_bn}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label> নাম (বাংলা ):</label>
+                                <input name="name_bn" placeholder=" নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                            </div>
+                            <div class="form-group">
+                                <label> পিতার নাম (বাংলা ):</label>
+                                <input name="father_name_bn" placeholder=" নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                            </div>
+                            <div class="form-group">
+                                <label> মাতার নাম (বাংলা ):</label>
+                                <input name="mother_name_bn" placeholder=" নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7 col-sm-7">
+                                    <div class="form-group">
+                                        <label>পরিচয়পত্র/জন্ম নিবন্ধন:</label>
+                                        <input name="nid_or_birthd_certificate" placeholder="Write the NID in English  "
+                                            class="form-control" type="number" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group">
+                                        <label>জন্ম তারিখ: </label>
+                                        <input name="birth_date" class="form-control" type="date" required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>জেলা: </label>
+                                <select required="" id="district_id" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option>---নির্বাচন করুন---</option>
+                                    @foreach ($district as $item)
+                                    <option value="{{$item->id}}">{{$item->district_name_bn}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>পৌরসভা/ইউনিয়ন: </label>
+                                <select required="" id="union_id" name="union_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option>---নির্বাচন করুন---</option>
+                                    @foreach ($union  as $item)
+                                    <option value="{{$item->id}}">{{$item->union_name_bn}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>গ্রাম: </label>
+                                        <select required="" id="village_id" name="village_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                            <option>---নির্বাচন করুন---</option>
+                                            @foreach ($village  as $item)
+                                                <option value="{{$item->id}}">{{$item->village_name_bn}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>ওয়ার্ড: </label>
+                                        <select required="" name="word_no" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                            <option>---নির্বাচন করুন---</option>
+                                            <option value="1">1</option>
+                                            <option value="1">2</option>
+                                            <option value="1">3</option>
+                                            <option value="1">4</option>
+                                            <option value="1">5</option>
+                                            <option value="1">6</option>
+                                            <option value="1">7</option>
+                                            <option value="1">8</option>
+                                            <option value="1">9</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>নাম (ইংরেজী ):</label>
+                                <input name="name_en" placeholder="Write the Name in English  " class="form-control" type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label>পিতার নাম (ইংরেজী):</label>
+                                <input name="father_name_en" placeholder=" পিতার নাম ইংরেজীতে লিখুন" class="form-control" type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label>মাতার নাম (ইংরেজী):</label>
+                                <input name="mother_name_en" placeholder="মাতার নাম ইংরেজীতে লিখুন" class="form-control" type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label> ছবি (Optional): </label>
+                                <input name="photo" class="form-control" type="file" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <button type="submit" class="btn btn-block btn-primary">পরিবর্তন করুন </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
       <!--  Edit Modal End -->
 
       <div id="DivdeleteModal" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form action="{{route('admin.village.delete')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.citizenship_certificate.delete')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header flex-column">
@@ -266,23 +413,17 @@
             },
             columns: [
                 { data: 'id' },
-                { data: 'zila.district_name_bn' },
-                { data: 'zila.district_name_en' },
+                { data: 'name_en' },
+                { data: 'father_name_en' },
 
-                { data: 'upzila.upozila_name_bn' },
-                { data: 'upzila.upozila_name_en' },
-
-                { data: 'union.union_name_bn' },
-                { data: 'union.union_name_en' },
-
-                { data: 'post_office.post_office_name_bn' },
-                { data: 'post_office.post_office_name_en' },
-
-                { data: 'village.village_name_bn' },
+                { data: 'mother_name_en' },
                 { data: 'village.village_name_en' },
 
-                { data: 'house_name_bn' },
-                { data: 'house_name_en' },
+                { data: 'post_office.post_office_name_en' },
+
+                { data: 'union.union_name_en' },
+
+                { data: 'upzila.upozila_name_en' },
 
                 {
                     data: null,
@@ -314,7 +455,7 @@
   /** Handle edit button click**/
   $('#datatable1 tbody').on('click', '.edit-btn', function () {
       var id = $(this).data('id');
-      var editUrl = '{{ route("admin.house.edit", ":id") }}';
+      var editUrl = '{{ route("admin.citizenship_certificate.edit", ":id") }}';
       var url = editUrl.replace(':id', id);
       $.ajax({
           type: 'GET',
@@ -331,23 +472,21 @@
                 $('#editModal select[name="village_id"]').val(response.data.village_id);
                 $('#editModal select[name="word_no"]').val(response.data.ward);
 
-                $('#editModal input[name="house_name_bn"]').val(response.data.house_name_bn);
-                $('#editModal input[name="house_name_en"]').val(response.data.house_name_en);
+                $('#editModal input[name="name_bn"]').val(response.data.name_bn);
+                $('#editModal input[name="name_en"]').val(response.data.name_en);
 
-                $('#editModal input[name="house_owner_bn"]').val(response.data.house_owner_bn);
-                $('#editModal input[name="house_owner_en"]').val(response.data.house_owner_en);
 
-                $('#editModal input[name="father_husband_name_bn"]').val(response.data.father_husband_name_bn);
-                $('#editModal input[name="father_husband_name_en"]').val(response.data.father_husband_name_en);
 
-                $('#editModal input[name="nid"]').val(response.data.nid_birth);
-                $('#editModal select[name="occupation"]').val(response.data.occupation);
-                $('#editModal select[name="toilet"]').val(response.data.toilet);
-                $('#editModal select[name="house_type"]').val(response.data.house_type);
-                $('#editModal input[name="yearly_rent"]').val(response.data.annual_house_rent);
-                $('#editModal input[name="previous_due"]').val(response.data.previous_due);
-                $('#editModal select[name="live_type"]').val(response.data.live_type);
-                $('#editModal input[name="institute_type"]').val(response.data.type_of_institute);
+                $('#editModal input[name="father_name_en"]').val(response.data.father_name_en);
+                $('#editModal input[name="father_name_bn"]').val(response.data.father_name_bn);
+
+                $('#editModal input[name="mother_name_en"]').val(response.data.mother_name_en);
+                $('#editModal input[name="mother_name_bn"]').val(response.data.mother_name_bn);
+
+                $('#editModal input[name="nid_or_birthd_certificate"]').val(response.data.nid_or_birth);
+                $('#editModal input[name="birth_date"]').val(response.data.birth_date);
+
+
               }
           },
           error: function (xhr, status, error) {

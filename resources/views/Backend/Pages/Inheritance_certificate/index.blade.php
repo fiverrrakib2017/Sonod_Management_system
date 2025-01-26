@@ -2,7 +2,7 @@
 @section('title','সনদ ব্যবস্থাপনা | Sonod Management ')
 @section('content')
 <section class="content-header">
-    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i> নতুন নাগরিকত্ব সনদ আবেদন করুন</button>
+    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i>  নতুন ওয়ারিশ সনদ আবেদন করুন</button>
 </section>
 
 <section class="content">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <form action="{{ route('admin.citizenship_certificate.store') }}" method="POST" enctype="multipart/form-data">@csrf
+                        <form action="{{ route('admin.inheritance_certificate.store') }}" method="POST" enctype="multipart/form-data">@csrf
                             <div class="col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <label>বিভাগ: </label>
@@ -176,6 +176,50 @@
                                     <input name="photo" class="form-control" type="file" accept="image/*">
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <h4>ওয়ারিশগণ <button id="addheiress" type="button" class="btn btn-success btn-md">যুক্ত করুন</button> </h4>
+                            </div>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th>নাম (বাংলা )</th>
+                                        <th>নাম (ইংরেজী )</th>
+                                        <th>সম্পর্ক</th>
+                                        <th>সম্পর্ক ( ইংরেজী )</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="heiress">
+
+                                </tbody>
+                            </table>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>তদন্তকারী ব্যক্তি :</label>
+
+                                        <input name="investigation_person_name"
+                                            placeholder=" তদন্তকারী ব্যক্তি নাম বাংলাতে লিখুন" class="form-control"
+                                            type="text" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label> আবেদনকারী নাম (বাংলা ):</label>
+                                        <input name="application_name_bn"
+                                            placeholder=" আবেদনকারী নাম বাংলাতে লিখুন" class="form-control"
+                                            type="text" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>আবেদনকারী নাম (ইংরেজী ):</label>
+                                        <input name="application_name_en"
+                                            placeholder="Write the Applicant Name in English  "
+                                            class="form-control" type="text" required="">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-4">
                                     <button type="submit" class="btn btn-block btn-primary">সংরক্ষন</button>
@@ -192,159 +236,12 @@
       <!--Add Modal End -->
 
       <!--Edit Modal Start -->
-      <div class="modal fade" id="editModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"> নাগরিকত্ব সনদ আবেদন করুন
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button></h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <form action="{{ route('admin.citizenship_certificate.update') }}" method="POST" enctype="multipart/form-data">@csrf
-                        <div class="col-md-6 col-sm-6">
-                            <div class="form-group">
-                                <label>বিভাগ: </label>
-                                <input type="hidden" name="id" class="d-none">
-                                <select required="" id="division_id" name="division_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option>---নির্বাচন করুন---</option>
-                                    @foreach ($division as $item)
-                                        <option value="{{$item->id}}">{{$item->division_name_bn}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>উপজেলা: </label>
-                                <select required="" id="upzila_id" name="upzila_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option>---নির্বাচন করুন---</option>
-                                    @foreach ($upzila as $item)
-                                        <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>পোস্ট অফিস: </label>
-                                <select required="" id="post_office_id" name="post_office_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option>---নির্বাচন করুন---</option>
-                                     @foreach ($post_office as $item)
-                                        <option value="{{$item->id}}">{{$item->post_office_name_bn}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label> নাম (বাংলা ):</label>
-                                <input name="name_bn" placeholder=" নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
-                            </div>
-                            <div class="form-group">
-                                <label> পিতার নাম (বাংলা ):</label>
-                                <input name="father_name_bn" placeholder=" নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
-                            </div>
-                            <div class="form-group">
-                                <label> মাতার নাম (বাংলা ):</label>
-                                <input name="mother_name_bn" placeholder=" নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
-                            </div>
-                            <div class="row">
-                                <div class="col-md-7 col-sm-7">
-                                    <div class="form-group">
-                                        <label>পরিচয়পত্র/জন্ম নিবন্ধন:</label>
-                                        <input name="nid_or_birthd_certificate" placeholder="Write the NID in English  "
-                                            class="form-control" type="number" required="">
-                                    </div>
-                                </div>
-                                <div class="col-md-5 col-sm-5">
-                                    <div class="form-group">
-                                        <label>জন্ম তারিখ: </label>
-                                        <input name="birth_date" class="form-control" type="date" required="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>জেলা: </label>
-                                <select required="" id="district_id" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option>---নির্বাচন করুন---</option>
-                                    @foreach ($district as $item)
-                                    <option value="{{$item->id}}">{{$item->district_name_bn}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>পৌরসভা/ইউনিয়ন: </label>
-                                <select required="" id="union_id" name="union_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option>---নির্বাচন করুন---</option>
-                                    @foreach ($union  as $item)
-                                    <option value="{{$item->id}}">{{$item->union_name_bn}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>গ্রাম: </label>
-                                        <select required="" id="village_id" name="village_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                            <option>---নির্বাচন করুন---</option>
-                                            @foreach ($village  as $item)
-                                                <option value="{{$item->id}}">{{$item->village_name_bn}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>ওয়ার্ড: </label>
-                                        <select required="" name="word_no" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                            <option>---নির্বাচন করুন---</option>
-                                            <option value="1">1</option>
-                                            <option value="1">2</option>
-                                            <option value="1">3</option>
-                                            <option value="1">4</option>
-                                            <option value="1">5</option>
-                                            <option value="1">6</option>
-                                            <option value="1">7</option>
-                                            <option value="1">8</option>
-                                            <option value="1">9</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>নাম (ইংরেজী ):</label>
-                                <input name="name_en" placeholder="Write the Name in English  " class="form-control" type="text" required>
-                            </div>
-                            <div class="form-group">
-                                <label>পিতার নাম (ইংরেজী):</label>
-                                <input name="father_name_en" placeholder=" পিতার নাম ইংরেজীতে লিখুন" class="form-control" type="text" required>
-                            </div>
-                            <div class="form-group">
-                                <label>মাতার নাম (ইংরেজী):</label>
-                                <input name="mother_name_en" placeholder="মাতার নাম ইংরেজীতে লিখুন" class="form-control" type="text" required>
-                            </div>
-                            <div class="form-group">
-                                <label> ছবি (Optional): </label>
-                                <input name="photo" class="form-control" type="file" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
-                                <button type="submit" class="btn btn-block btn-primary">পরিবর্তন করুন </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+
       <!--  Edit Modal End -->
 
       <div id="DivdeleteModal" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form action="{{route('admin.citizenship_certificate.delete')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.inheritance_certificate.delete')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header flex-column">
@@ -394,7 +291,7 @@
             responsive: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('admin.citizenship_certificate.all_data') }}",
+                url: "{{ route('admin.inheritance_certificate.all_data') }}",
                 type: 'GET',
                 data: function(d) {
                     d.division_id = $('#search_division_id').val();
@@ -455,7 +352,7 @@
   /** Handle edit button click**/
   $('#datatable1 tbody').on('click', '.edit-btn', function () {
       var id = $(this).data('id');
-      var editUrl = '{{ route("admin.citizenship_certificate.edit", ":id") }}';
+      var editUrl = '{{ route("admin.inheritance_certificate.edit", ":id") }}';
       var url = editUrl.replace(':id', id);
       $.ajax({
           type: 'GET',
@@ -624,6 +521,33 @@
         }
     });
   });
+
+
+
+
+  $('#addheiress').click(function (e) {
+            var row = '<tr>';
+            row += '<td> <input name="sub_name_bn[]" placeholder="নাম বাংলাতে লিখুন" class="form-control" type="text" required=""></td>';
+
+            row += '<td> <input name="sub_name_en[]" placeholder="Write the Heir Name No  in English" class="form-control" type="text" required=""> </td>';
+
+            row += '<td> <input name="sub_name_relation_bn[]" placeholder="সম্পর্ক বাংলাতে লিখুন "class="form-control" type="text" required="">';
+
+            row += '<td> <input name="sub_name_relation_en[]" placeholder=" Write the Relationship in English" class="form-control" type="text" required="">';
+
+            row += '<td> <input name="remove" class="form-control btn btn-danger" type="button" value="Remove"> </td>';
+
+            row += '</tr>';
+
+            $('#heiress').append(row);
+            removerow();
+
+        });
+        function removerow() {
+            $('input[name="remove"]').click(function (e) {
+                $(this).parent().parent().remove();
+            });
+        }
 
 
 </script>

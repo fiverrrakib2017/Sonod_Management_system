@@ -53,7 +53,7 @@
                     <li><a href="tradelicense_certification.php"><i class="fa fa-circle-o"></i> ট্রেড লাইসেন্স</a></li>
                     <li><a href="similar_name_certification.php"><i class="fa fa-circle-o"></i>একই নাম প্রত্যয়ন</a></li>
                     <li><a href="unmarried_certification.php"><i class="fa fa-circle-o"></i>অবিবাহিত সনদ </a></li>
-                    <li><a href="heir_certification.php"><i class="fa fa-circle-o"></i> ওয়ারিশ সনদ </a></li>
+                    <li><a href="{{ route('admin.inheritance_certificate.index') }}"><i class="fa fa-circle-o"></i> ওয়ারিশ সনদ </a></li>
                     <li><a href="death_certification.php"><i class="fa fa-circle-o"></i> মৃত্যু সনদ </a></li>
                 </ul>
             </li>

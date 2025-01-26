@@ -42,14 +42,14 @@
                     <li><a href="{{route('admin.post_office.index')}}"><i class="fa fa-circle-o"></i> ডাকঘর </a></li>
                     <li><a href="{{route('admin.village.index')}}"><i class="fa fa-circle-o"></i> গ্রাম </a></li>
                     <li><a href="{{route('admin.house.index')}}"><i class="fa fa-circle-o"></i> বাড়ী </a></li>
-                    <li><a href="{{ route('admin.institute.index') }}"><i class="fa fa-circle-o"></i> প্রতিষ্ঠান </a></li>
+                    {{-- <li><a href="{{ route('admin.institute.index') }}"><i class="fa fa-circle-o"></i> প্রতিষ্ঠান </a></li> --}}
                 </ul>
             </li>
 
             <li class="treeview">
                 <a href="#"> <i class="fa fa-file"></i> <span>সকল সনদ</span> <span class="pull-right-container"> <i class="fa fa-angle-down pull-right"></i> </span> </a>
                 <ul class="treeview-menu" SA>
-                    <li><a href="citizenship_certification.php"><i class="fa fa-circle-o"></i> নাগরিকত্ব সনদ</a></li>
+                    <li><a href="{{ route('admin.citizenship_certificate.index') }}"><i class="fa fa-circle-o"></i> নাগরিকত্ব সনদ</a></li>
                     <li><a href="tradelicense_certification.php"><i class="fa fa-circle-o"></i> ট্রেড লাইসেন্স</a></li>
                     <li><a href="similar_name_certification.php"><i class="fa fa-circle-o"></i>একই নাম প্রত্যয়ন</a></li>
                     <li><a href="unmarried_certification.php"><i class="fa fa-circle-o"></i>অবিবাহিত সনদ </a></li>

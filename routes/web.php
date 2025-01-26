@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\AdminController;
+use App\Http\Controllers\Backend\Certificate\CitizenshipController;
 use App\Http\Controllers\Backend\Division\DivisionController;
 use App\Http\Controllers\Backend\House\HouseController;
 use App\Http\Controllers\Backend\Institude\Institude_controller;
@@ -97,6 +98,15 @@ Route::middleware('admin')->group(function () {
          Route::post('/delete', 'delete')->name('admin.institute.delete');
         Route::get('/edit/{id}', 'edit')->name('admin.institute.edit');
         Route::post('/update', 'update')->name('admin.institute.update');
+    });
+    /** CitizenShip Centificate Management Route **/
+    Route::prefix('admin/citizenship_certificate')->controller(CitizenshipController::class)->group(function(){
+        Route::get('/list', 'index')->name('admin.citizenship_certificate.index');
+        Route::get('/all_data', 'all_data')->name('admin.citizenship_certificate.all_data');
+        Route::post('/store', 'store')->name('admin.citizenship_certificate.store');
+         Route::post('/delete', 'delete')->name('admin.citizenship_certificate.delete');
+        Route::get('/edit/{id}', 'edit')->name('admin.citizenship_certificate.edit');
+        Route::post('/update', 'update')->name('admin.citizenship_certificate.update');
     });
 
 

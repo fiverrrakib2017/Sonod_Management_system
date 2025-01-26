@@ -59,7 +59,8 @@
                     <div class="box" style="border-top: none;">
                         <div class="box-body">
                             <div class="table-responsive">
-                                <table id="datatable1" class="table table-bordered table-striped">
+                                <table id="datatable1"  class="table table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead class="data-table-head">
                                         <tr class="data-table-head-row">
                                             <th>ক্রমিক নং </th>
@@ -91,24 +92,23 @@
         </div>
     </div>
 </section>
-      <!--Add Modal Start -->
-      <div class="modal fade" id="addModal">
+    <!-- Institute Add Modal Start -->
+    <div class="modal fade" id="addModal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">নতুন বাড়ী যুক্ত করুন
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h4 class="modal-title">নতুন প্রতিষ্ঠান যুক্ত করুন <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button></h4>
             </div>
+
             <div class="modal-body">
-            <form action="{{route('admin.house.store')}}" method="POST" enctype="multipart/form-data">
-                @csrf
+              <form action="" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label>বিভাগ: </label>
-                            <select required="" id="division_id" name="division_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <select required="" name="division_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                 <option>---নির্বাচন করুন---</option>
                                 @foreach ($division as $item)
                                     <option value="{{$item->id}}">{{$item->division_name_bn}}</option>
@@ -117,117 +117,112 @@
                         </div>
                         <div class="form-group">
                             <label>উপজেলা: </label>
-                            <select required="" id="upzila_id" name="upzila_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <select required="" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                 <option>---নির্বাচন করুন---</option>
+                                @foreach ($upzila as $item)
+                                    <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>পোস্ট অফিস: </label>
-                            <select required="" id="post_office_id" name="post_office_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <select required="" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                 <option>---নির্বাচন করুন---</option>
-
+                                @foreach ($post_office as $item)
+                                 <option value="{{$item->id}}">{{$item->post_office_name_bn}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>বাড়ীর নাম (বাংলা ):</label>
-                            <input name="house_name_bn" placeholder="বাড়ীর নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
+                            <label>প্রতিষ্ঠান মালিকের নাম (বাংলা ):</label>
+                            <input name="district_name" placeholder="প্রতিষ্ঠান মালিকের নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
                         </div>
                         <div class="form-group">
-                            <label>বাড়ীর মালিক (বাংলা)</label>
-                            <input name="house_owner_bn" placeholder="বাড়ীর মালিক বাংলাতে লিখুন" class="form-control" type="text" required="">
+                            <label>পিতা/স্বামীর নাম (বাংলা)</label>
+                            <input name="ename" placeholder="পিতা/স্বামীর নাম বাংলাতে লিখুন" class="form-control" type="text" required="">
                         </div>
                         <div class="form-group">
                             <label>পিতা/স্বামী (বাংলা)</label>
-                            <input name="father_husband_name_bn" placeholder="পিতা/স্বামী বাংলাতে লিখুন" class="form-control" type="text" required="">
+                            <input name="ename" placeholder="পিতা/স্বামী বাংলাতে লিখুন" class="form-control" type="text" required="">
                         </div>
                         <div class="form-group">
-                            <label> জাতীয় পরিচয়পত্র/জন্ম সনদ</label>
-                            <input name="nid" placeholder="জাতীয় পরিচয়পত্র/জন্ম সনদ লিখুন" class="form-control" type="number" required="">
-                        </div>
-                        <div class="form-group">
-                            <label>টয়লেট </label><br>
-                            <select required="" id="toilet" name="toilet" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                <option>---নির্বাচন করুন---</option>
-                                    <option value="পাকা">পাকা</option>
-                                    <option value="কাচা">কাচা</option>
-                                    <option value="নাই">নাই</option>
-                            </select>
+                            <label>বাৎসরিক মূলধন  </label>
+                            <input name="yearly_income" class="form-control" type="number" required="" placeholder="গড় বাৎসরিক ইনকাম  ">
                         </div>
                         <div class="form-group">
                             <label>বাৎসরিক বাড়ি ভাড়া </label>
-                            <input name="yearly_rent" class="form-control" type="text"
-                                placeholder="বাৎসরিক বাড়ি ভাড়া">
+                            <input name="yearly_rent" class="form-control" type="number" required="" placeholder="বাৎসরিক বাড়ি ভাড়া">
                         </div>
                         <div class="form-group">
-                            <label>বাস করার ধরণ </label><br>
-                            <label>
-                                <select required="" id="live_type" name="live_type" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option>---নির্বাচন করুন---</option>
-                                    <option value="নিজের">নিজের</option>
-                                    <option value="ভাড়া">ভাড়া</option>
-                                    <option value="উভয়ই">উভয়ই</option>
-                            </select>
+                            <label>প্রতিষ্ঠানের নাম </label>
+                            <input name="house_name" class="form-control" type="text" required="" placeholder="প্রতিষ্ঠানের নাম ">
                         </div>
                         <div class="form-group">
-                            <label>ইনস্টিটিউট এর ধরণ </label>
-                            <input class="form-control" type="text" disabled=""
-                                placeholder="আবাসিক  ">
-                            <input name="institute_type" class="form-control" type="hidden"
-                                value="1">
+                            <label>প্রতিষ্ঠানের ধরন  </label>
+                            <input name="institute_type" class="form-control" type="hidden" value="0">
+                            <input class="form-control" type="text" disabled="" placeholder="কর্পোরেট   ">
                         </div>
-
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label>জেলা: </label>
-                            <select required="" id="district_id" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <select required="" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                 <option>---নির্বাচন করুন---</option>
+                                @foreach ($district as $item)
+                                    <option value="{{$item->id}}">{{$item->district_name_bn}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>পৌরসভা/ইউনিয়ন: </label>
-                            <select required="" id="union_id" name="union_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <select required="" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                 <option>---নির্বাচন করুন---</option>
+                                @foreach ($union  as $item)
+                                    <option value="{{$item->id}}">{{$item->union_name_bn}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>গ্রাম: </label>
-                                    <select required="" id="village_id" name="village_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <select required="" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                         <option>---নির্বাচন করুন---</option>
+                                        @foreach ($village  as $item)
+                                            <option value="{{$item->id}}">{{$item->village_name_bn}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>ওয়ার্ড: </label>
-                                    <select required="" name="word_no" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <select required="" name="district_id" class="form-control " style="width: 100%;" tabindex="-1" aria-hidden="true">
                                         <option>---নির্বাচন করুন---</option>
                                         <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="1">5</option>
+                                        <option value="1">6</option>
+                                        <option value="1">7</option>
+                                        <option value="1">8</option>
+                                        <option value="1">9</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>বাড়ীর নাম (ইংরেজী)</label>
-                            <input name="house_name_en" placeholder="বাড়ীর নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
+                            <input name="ename" placeholder="বাড়ীর নাম ইংরেজিতে লিখুন" class="form-control" type="text" required="">
                         </div>
                         <div class="form-group">
                             <label>বাড়ীর মালিক (ইংরেজী)</label>
-                            <input name="house_owner_en" placeholder="বাড়ীর মালিক ইংরেজিতে লিখুন" class="form-control" type="text" required="">
+                            <input name="ename" placeholder="বাড়ীর মালিক ইংরেজিতে লিখুন" class="form-control" type="text" required="">
                         </div>
                         <div class="form-group">
                             <label>পিতা/স্বামী (ইংরেজী)</label>
-                            <input name="father_husband_name_en" placeholder="পিতা/স্বামী ইংরেজিতে লিখুন" class="form-control" type="text" required="">
+                            <input name="ename" placeholder="পিতা/স্বামী ইংরেজিতে লিখুন" class="form-control" type="text" required="">
                         </div>
                         <div class="form-group">
                             <label>বাড়ির মালিকের পেশা </label>
@@ -245,32 +240,41 @@
 
                         <div class="form-group">
                             <label>বাড়ির ধরণ </label>
-                            <select name="house_type"
-                                class="form-control select2 select2-hidden-accessible"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                <option value="">--- নির্বাচন করুন ---</option>
-                                <option value="পাকা ঘর">পাকা ঘর </option>
-                                <option value="আধা পাকা">আধা পাকা </option>
-                                <option value="কাঁচা ঘর ">কাঁচা ঘর  </option>
-                                <option value="চৌচালা">চৌচালা </option>
-                            </select>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    পাকা ঘর <input name="ripe" class="form-control" type="text"
+                                        placeholder="0">
+                                </div>
+                                <div class="col-md-3">
+                                    আধা পাকা ঘর<input name="semi_ripe" class="form-control"
+                                        type="text" placeholder="0">
+                                </div>
+                                <div class="col-md-3">
+                                    কাঁচা ঘর<input name="raw" class="form-control" type="text"
+                                        placeholder="0">
+                                </div>
+                                <div class="col-md-3">
+                                    চৌচালা<input name="four_floor" class="form-control" type="text"
+                                        placeholder="0">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>পূর্ববর্তী বকেয়া</label>
-                            <input name="previous_due" class="form-control" type="text"
+                            <input name="previous_owing" class="form-control" type="text"
                                 placeholder="পূর্ববর্তী  বকেয়া">
                         </div>
                     </div>
                 </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-success">সংরক্ষন করুন</button>
+                        <button type="button" class="btn btn-success">সংরক্ষন করুন</button>
                     </div>
                 </form>
             </div>
           </div>
           <!-- /.modal-content -->
         </div>
-        <!--modal-dialog -->
+        <!-- /.modal-dialog -->
       </div>
       <!--Add Modal End -->
 
@@ -470,7 +474,7 @@
 
       <div id="DivdeleteModal" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form action="{{route('admin.village.delete')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.institute.delete')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header flex-column">
@@ -520,7 +524,7 @@
             responsive: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('admin.house.all_data') }}",
+                url: "{{ route('admin.institute.all_data') }}",
                 type: 'GET',
                 data: function(d) {
                     d.division_id = $('#search_division_id').val();

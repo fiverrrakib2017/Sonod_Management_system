@@ -15,10 +15,10 @@ use App\Services\ValidationService;
 
 class HouseController extends Controller
 {
-    protected  $newInstance; 
+    protected  $newInstance;
     public function __construct(ValidationService $ValidationService)
     {
-        $this->newInstance=$ValidationService; 
+        $this->newInstance=$ValidationService;
     }
     private function validation($request){
         $rules = [
@@ -63,7 +63,7 @@ class HouseController extends Controller
         $columnsForOrderBy = ['id','district_name_bn', 'district_name_en', 'created_at'];
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
-    
+
         $query = House::with('zila','upzila' , 'union','post_office','village')->when($search, function ($query) use ($search) {
 
             $query->where('house_name_bn', 'like', "%$search%")
@@ -90,7 +90,7 @@ class HouseController extends Controller
                             ->orWhere('village_name_en', 'like', "%$search%");
                   });
         });
-    
+
         if ($request->has('division_id') && !empty($request->division_id)) {
             $query->where('division_id', $request->division_id);
         }
@@ -103,20 +103,20 @@ class HouseController extends Controller
         if ($request->has('union_id') && !empty($request->union_id)) {
             $query->where('union_id', $request->union_id);
         }
-    
+
         $total = $query->count();
         $items = $query->orderBy($orderByColumn, $orderDirection)
                        ->skip($request->start)
                        ->take($request->length)
                        ->get();
-    
+
         return response()->json([
             'draw' => $request->draw,
             'recordsTotal' => $total,
             'recordsFiltered' => $total,
             'data' => $items,
         ]);
-    }    
+    }
     public function store(Request $request){
         /*Validate the incoming request data*/
         $this->validation($request);
@@ -144,8 +144,8 @@ class HouseController extends Controller
         $house->annual_house_rent = $request->yearly_rent;
         $house->live_type = $request->live_type;
         $house->type_of_institute = $request->institute_type;
-       
-        
+
+
         $house->occupation = $request->occupation;
         $house->house_type = $request->house_type;
         $house->previous_due = $request->previous_due;
@@ -158,10 +158,10 @@ class HouseController extends Controller
         if (!$data) {
             return response()->json(['error' => 'Not found']);
         }
-        return response()->json(['success'=>true,'data' => $data]); 
+        return response()->json(['success'=>true,'data' => $data]);
     }
     public function update(Request $request){
-        
+
         /*Validate the incoming request data*/
         $this->validation($request);
         $house =House::find($request->id);
@@ -187,8 +187,8 @@ class HouseController extends Controller
         $house->annual_house_rent = $request->yearly_rent;
         $house->live_type = $request->live_type;
         $house->type_of_institute = $request->institute_type;
-       
-        
+
+
         $house->occupation = $request->occupation;
         $house->house_type = $request->house_type;
         $house->previous_due = $request->previous_due;
@@ -205,7 +205,7 @@ class HouseController extends Controller
         // Delete the Data
         $object->delete();
 
-        return response()->json(['success' =>true, 'message'=> 'Deleted successfully']); 
+        return response()->json(['success' =>true, 'message'=> 'Deleted successfully']);
     }
-    
+
 }

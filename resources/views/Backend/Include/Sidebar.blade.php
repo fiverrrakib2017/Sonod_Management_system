@@ -42,7 +42,7 @@
                     <li><a href="{{route('admin.post_office.index')}}"><i class="fa fa-circle-o"></i> ডাকঘর </a></li>
                     <li><a href="{{route('admin.village.index')}}"><i class="fa fa-circle-o"></i> গ্রাম </a></li>
                     <li><a href="{{route('admin.house.index')}}"><i class="fa fa-circle-o"></i> বাড়ী </a></li>
-                    <li><a href="institute.php"><i class="fa fa-circle-o"></i> প্রতিষ্ঠান </a></li>
+                    <li><a href="{{ route('admin.institute.index') }}"><i class="fa fa-circle-o"></i> প্রতিষ্ঠান </a></li>
                 </ul>
             </li>
 

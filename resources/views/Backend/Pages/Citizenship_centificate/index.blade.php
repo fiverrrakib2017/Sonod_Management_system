@@ -509,7 +509,7 @@
 
 
     /** Handle form submission for delete **/
-    //_delete();
+    _delete();
 
 
     /*Add Modal To Get The Dependency*/

@@ -185,4 +185,15 @@ class CitizenshipController extends Controller
 
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
     }
+    public function delete(Request $request){
+        $object = Citizenship_certificate::find($request->id);
+
+        if (!$object) {
+            return response()->json(['error' => 'Not found']);
+        }
+        // Delete the Data
+        $object->delete();
+
+        return response()->json(['success' =>true, 'message'=> 'Deleted successfully']);
+    }
 }

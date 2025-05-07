@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\AdminController;
+use App\Http\Controllers\Backend\Certificate\birth_certificateController;
 use App\Http\Controllers\Backend\Certificate\CitizenshipController;
 use App\Http\Controllers\Backend\Certificate\Inheritance_certificate_controller;
 use App\Http\Controllers\Backend\Division\DivisionController;
@@ -119,7 +120,16 @@ Route::middleware('admin')->group(function () {
         Route::post('/update', 'update')->name('admin.inheritance_certificate.update');
     });
 
-
+ /** Birth Centificate Management Route **/
+ Route::prefix('admin/birth_certificate')->controller(birth_certificateController::class)->group(function(){
+    Route::get('/list', 'index')->name('admin.birth_certificate.index');
+    Route::get('/upload', 'upload')->name('admin.birth_certificate.upload');
+    // Route::get('/all_data', 'all_data')->name('admin.citizenship_certificate.all_data');
+    // Route::post('/store', 'store')->name('admin.citizenship_certificate.store');
+    //  Route::post('/delete', 'delete')->name('admin.citizenship_certificate.delete');
+    // Route::get('/edit/{id}', 'edit')->name('admin.citizenship_certificate.edit');
+    // Route::post('/update', 'update')->name('admin.citizenship_certificate.update');
+});
 
 
 });

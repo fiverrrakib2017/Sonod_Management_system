@@ -47,6 +47,14 @@
             </li>
 
             <li class="treeview">
+                <a href="#"> <i class="fa fa-search"></i> <span>জন্ম তথ্য</span> <span class="pull-right-container"> <i class="fa fa-angle-down pull-right"></i> </span> </a>
+                <ul class="treeview-menu" >
+
+                    <li><a href="{{ route('admin.birth_certificate.upload') }}"><i class="fa fa-circle-o"></i>জন্ম নিবন্ধনের তথ্য আপলোড</a></li>
+                    <li><a href="{{ route('admin.birth_certificate.index') }}"><i class="fa fa-circle-o"></i>জন্ম  তথ্য অনুসন্ধান</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
                 <a href="#"> <i class="fa fa-file"></i> <span>সকল সনদ</span> <span class="pull-right-container"> <i class="fa fa-angle-down pull-right"></i> </span> </a>
                 <ul class="treeview-menu" SA>
                     <li><a href="{{ route('admin.citizenship_certificate.index') }}"><i class="fa fa-circle-o"></i> নাগরিকত্ব সনদ</a></li>

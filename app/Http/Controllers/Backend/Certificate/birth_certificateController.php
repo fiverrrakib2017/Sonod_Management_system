@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Certificate;
 
 use App\Http\Controllers\Controller;
+use App\Models\Birth_certificate;
 use App\Models\Citizenship_certificate;
 use Illuminate\Http\Request;
 use App\Models\District;
@@ -14,7 +15,7 @@ use App\Models\Village;
 use App\Services\ValidationService;
 class birth_certificateController extends Controller
 {
-    
+
     public function index()
     {
 
@@ -31,34 +32,18 @@ class birth_certificateController extends Controller
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
 
-        $query = Citizenship_certificate::with('zila','upzila' , 'union','post_office','village')->when($search, function ($query) use ($search) {
+        $query = Birth_certificate::when($search, function ($query) use ($search) {
 
-            $query->where('name_bn', 'like', "%$search%")
-                  ->orWhere('name_en', 'like', "%$search%")
-                  ->orWhere('name_bn', 'like', "%$search%")
-                  ->orWhere('father_name_bn', 'like', "%$search%")
-                  ->orWhere('father_name_en', 'like', "%$search%")
+            $query->where('name', 'like', "%$search%")
+                  ->orWhere('nid', 'like', "%$search%")
+                  ->orWhere('father_name', 'like', "%$search%")
+                  ->orWhere('mother_name', 'like', "%$search%")
+                  ->orWhere('provide_date', 'like', "%$search%");
 
-                  ->orWhereHas('zila', function ($query) use ($search) {
-                      $query->where('district_name_bn', 'like', "%$search%")
-                            ->orWhere('district_name_en', 'like', "%$search%");
-                  })
-                  ->orWhereHas('upzila', function ($query) use ($search) {
-                      $query->where('upozila_name_bn', 'like', "%$search%")
-                            ->orWhere('upozila_name_en', 'like', "%$search%");
-                  })
-                  ->orWhereHas('union', function ($query) use ($search) {
-                      $query->where('union_name_bn', 'like', "%$search%")
-                            ->orWhere('union_name_en', 'like', "%$search%");
-                  })
-                  ->orWhereHas('post_office', function ($query) use ($search) {
-                      $query->where('post_office_name_bn', 'like', "%$search%")
-                            ->orWhere('post_office_name_en', 'like', "%$search%");
-                  })
-                  ->orWhereHas('village', function ($query) use ($search) {
-                      $query->where('village_name_bn', 'like', "%$search%")
-                            ->orWhere('village_name_en', 'like', "%$search%");
-                  });
+                //   ->orWhereHas('zila', function ($query) use ($search) {
+                //       $query->where('district_name_bn', 'like', "%$search%")
+                //             ->orWhere('district_name_en', 'like', "%$search%");
+                //   });
         });
 
         if ($request->has('division_id') && !empty($request->division_id)) {
@@ -89,41 +74,29 @@ class birth_certificateController extends Controller
     }
     public function store(Request $request)
     {
-       // return $request->all();exit;
-        $this->validation($request);
-        $object=new Citizenship_certificate();
-        $object->division_id = $request->division_id;
-        $object->district_id = $request->district_id;
-        $object->upozila_id = $request->upzila_id;
-        $object->union_id = $request->union_id;
-        $object->post_office_id = $request->post_office_id;
-        $object->village_id = $request->village_id;
-        $object->ward = $request->word_no;
-
-        $object->name_bn = $request->name_bn;
-        $object->name_en = $request->name_en;
-
-        $object->father_name_bn = $request->father_name_bn;
-        $object->father_name_en = $request->father_name_en;
-
-        $object->mother_name_bn = $request->mother_name_bn;
-        $object->mother_name_en = $request->mother_name_en;
-
-        $object->nid_or_birth = $request->nid_or_birthd_certificate;
-        $object->birth_date = $request->birth_date;
-        if($request->hasFile('photo')){
-            $image = $request->file('photo');
-            $image_name = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('uploads/photos/'),$image_name);
-            $object->photo = 'uploads/photos/'.$image_name;
-        }else{
-            $object->photo = 'uploads/photos/default.png';
-        }
+       $request->validate([
+            'name' => 'required|string|max:255',
+            'nid' => 'required|string|max:20',
+            'father_name' => 'required',
+            'mother_name' => 'required',
+            'union' => 'required',
+            'village' => 'required',
+            'ward_no' => 'required',
+        ]);
+        $object=new Birth_certificate();
+        $object->name=$request->name;
+        $object->nid=$request->nid;
+        $object->father_name=$request->father_name;
+        $object->mother_name=$request->mother_name;
+        $object->union=$request->union;
+        $object->village=$request->village;
+        $object->ward_no=$request->ward_no;
+        $object->provide_date=$request->provide_date;
         $object->save();
         return response()->json(['success' =>true, 'message'=> 'Saved successfully']);
     }
     public function edit($id){
-        $data = Citizenship_certificate::find($id);
+        $data = Birth_certificate::find($id);
         if (!$data) {
             return response()->json(['error' => 'Not found']);
         }
@@ -132,41 +105,30 @@ class birth_certificateController extends Controller
     public function update(Request $request){
 
         /*Validate the incoming request data*/
-        $this->validation($request);
-        $object =Citizenship_certificate::find($request->id);
-        $object->division_id = $request->division_id;
-        $object->district_id = $request->district_id;
-        $object->upozila_id = $request->upzila_id;
-        $object->union_id = $request->union_id;
-        $object->post_office_id = $request->post_office_id;
-        $object->village_id = $request->village_id;
-        $object->ward = $request->word_no;
-
-        $object->name_bn = $request->name_bn;
-        $object->name_en = $request->name_en;
-
-        $object->father_name_bn = $request->father_name_bn;
-        $object->father_name_en = $request->father_name_en;
-
-        $object->mother_name_bn = $request->mother_name_bn;
-        $object->mother_name_en = $request->mother_name_en;
-
-        $object->nid_or_birth = $request->nid_or_birthd_certificate;
-        $object->birth_date = $request->birth_date;
-        if($request->hasFile('photo')){
-            $image = $request->file('photo');
-            $image_name = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('uploads/photos/'),$image_name);
-            $object->photo = 'uploads/photos/'.$image_name;
-        }else{
-            $object->photo = 'uploads/photos/default.png';
-        }
+      $request->validate([
+            'name' => 'required|string|max:255',
+            'nid' => 'required|string|max:20',
+            'father_name' => 'required',
+            'mother_name' => 'required',
+            'union' => 'required',
+            'village' => 'required',
+            'ward_no' => 'required',
+        ]);
+        $object =Birth_certificate::find($request->id);
+        $object->name=$request->name;
+        $object->nid=$request->nid;
+        $object->father_name=$request->father_name;
+        $object->mother_name=$request->mother_name;
+        $object->union=$request->union;
+        $object->village=$request->village;
+        $object->ward_no=$request->ward_no;
+        $object->provide_date=$request->provide_date;
         $object->update();
 
         return response()->json(['success' =>true, 'message'=> 'Update successfully']);
     }
     public function delete(Request $request){
-        $object = Citizenship_certificate::find($request->id);
+        $object = Birth_certificate::find($request->id);
 
         if (!$object) {
             return response()->json(['error' => 'Not found']);

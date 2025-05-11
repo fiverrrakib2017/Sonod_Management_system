@@ -2,7 +2,7 @@
 @section('title','সনদ ব্যবস্থাপনা | Sonod Management ')
 @section('content')
 <section class="content-header">
-    <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i> জন্ম  তথ্য  সনদ আবেদন করুন</button>
+    {{-- <button type="button" data-id="1" class="btn-success modal-info btn bg-primary btn-flat" data-toggle="modal" data-target="#addModal"><i class="fa fa-pencil"></i> জন্ম  তথ্য  সনদ আবেদন করুন</button> --}}
 </section>
 
 <section class="content">
@@ -20,13 +20,14 @@
                                             <th>ক্রমিক নং</th>
                                             <th>নাম</th>
                                             <th>এনআইডি নম্বর</th>
+                                            <th> জন্ম তারিখ</th>
                                             <th>পিতার/স্বামীর নাম</th>
                                             <th>মাতার নাম</th>
                                             <th>ইউনিয়ন</th>
                                             <th>গ্রাম</th>
                                             <th>ওয়ার্ড</th>
                                             <th>প্রদানের তারিখ</th>
-                                            <th>একশন</th>
+                                            {{-- <th>একশন</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -214,6 +215,7 @@
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'nid' },
+                { data: 'birth_date' },
                 { data: 'father_name' },
                 { data: 'mother_name' },
 
@@ -224,13 +226,13 @@
                 { data: 'provide_date' },
 
 
-                {
-                    data: null,
-                    render: function(data, type, row) {
-                        return `<button class="btn btn-primary btn-sm mr-3 edit-btn" data-id="${row.id}"><i class="fa fa-edit"></i></button>
-                                <button class="btn btn-danger btn-sm mr-3 delete-btn" data-toggle="modal" data-target="#deleteModal" data-id="${row.id}"><i class="fa fa-trash"></i></button>`;
-                    }
-                }
+                // {
+                //     data: null,
+                //     render: function(data, type, row) {
+                //         return `<button class="btn btn-primary btn-sm mr-3 edit-btn" data-id="${row.id}"><i class="fa fa-edit"></i></button>
+                //                 <button class="btn btn-danger btn-sm mr-3 delete-btn" data-toggle="modal" data-target="#deleteModal" data-id="${row.id}"><i class="fa fa-trash"></i></button>`;
+                //     }
+                // }
             ],
             order: [
                 [0, "desc"]

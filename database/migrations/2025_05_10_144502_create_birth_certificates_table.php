@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('union');
             $table->string('village');
             $table->string('ward_no');
+            $table->date('birth_date');
             $table->date('provide_date');
             $table->timestamps();
         });

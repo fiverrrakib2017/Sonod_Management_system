@@ -129,6 +129,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/delete', 'delete')->name('admin.birth_certificate.delete');
     Route::get('/edit/{id}', 'edit')->name('admin.birth_certificate.edit');
     Route::post('/update', 'update')->name('admin.birth_certificate.update');
+    Route::post('/upload_csv_file', 'upload_csv_file')->name('admin.birth_certificate.upload_file');
 });
 
 

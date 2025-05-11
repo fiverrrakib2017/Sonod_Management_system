@@ -95,6 +95,42 @@ class birth_certificateController extends Controller
         $object->save();
         return response()->json(['success' =>true, 'message'=> 'Saved successfully']);
     }
+      public function upload_csv_file(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt',
+        ]);
+
+        $file = $request->file('file');
+
+
+        if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
+            $isFirstRow = true;
+
+            while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+
+                if ($isFirstRow) {
+                    $isFirstRow = false;
+                    continue;
+                }
+                Birth_certificate::create([
+                    'name'         => $data[0] ?? '',
+                    'nid'          => $data[1] ?? '',
+                    'father_name'  => $data[2] ?? '',
+                    'mother_name'  => $data[3] ?? '',
+                    'union'        => $data[4] ?? '',
+                    'village'      => $data[5] ?? '',
+                    'ward_no'      => $data[6] ?? '',
+                    'birth_date' => date('Y-m-d', strtotime($data[7])) ?? now(),
+                    'provide_date' => date('Y-m-d', strtotime($data[8])) ?? now(),
+                ]);
+            }
+
+            fclose($handle);
+        }
+
+        return back()->with('success', 'ডেটা সফলভাবে আপলোড হয়েছে।');
+    }
     public function edit($id){
         $data = Birth_certificate::find($id);
         if (!$data) {

@@ -32,18 +32,29 @@ class birth_certificateController extends Controller
         $orderByColumn = $columnsForOrderBy[$request->order[0]['column']];
         $orderDirection = $request->order[0]['dir'];
 
-        $query = Birth_certificate::when($search, function ($query) use ($search) {
+        $query = Birth_certificate::with('division', 'zila','upzila', 'union')->when($search, function ($query) use ($search) {
 
             $query->where('name', 'like', "%$search%")
-                  ->orWhere('nid', 'like', "%$search%")
                   ->orWhere('father_name', 'like', "%$search%")
                   ->orWhere('mother_name', 'like', "%$search%")
-                  ->orWhere('provide_date', 'like', "%$search%");
+                  ->orWhere('provide_date', 'like', "%$search%")
 
-                //   ->orWhereHas('zila', function ($query) use ($search) {
-                //       $query->where('district_name_bn', 'like', "%$search%")
-                //             ->orWhere('district_name_en', 'like', "%$search%");
-                //   });
+                  ->orWhereHas('division', function ($query) use ($search) {
+                      $query->where('division_name_bn', 'like', "%$search%")
+                            ->orWhere('division_name_en', 'like', "%$search%");
+                  })
+                  ->orWhereHas('zila', function ($query) use ($search) {
+                      $query->where('district_name_bn', 'like', "%$search%")
+                            ->orWhere('district_name_en', 'like', "%$search%");
+                  })
+                  ->orWhereHas('upzila', function ($query) use ($search) {
+                      $query->where('upzila_name_bn', 'like', "%$search%")
+                            ->orWhere('upzila_name_en', 'like', "%$search%");
+                  })
+                  ->orWhereHas('union', function ($query) use ($search) {
+                      $query->where('union_name_bn', 'like', "%$search%")
+                            ->orWhere('union_name_en', 'like', "%$search%");
+                  });
         });
 
         if ($request->has('division_id') && !empty($request->division_id)) {
@@ -114,15 +125,18 @@ class birth_certificateController extends Controller
                     continue;
                 }
                 Birth_certificate::create([
-                    'name'         => $data[0] ?? '',
-                    'nid'          => $data[1] ?? '',
-                    'father_name'  => $data[2] ?? '',
-                    'mother_name'  => $data[3] ?? '',
-                    'union'        => $data[4] ?? '',
-                    'village'      => $data[5] ?? '',
-                    'ward_no'      => $data[6] ?? '',
-                    'birth_date' => date('Y-m-d', strtotime($data[7])) ?? now(),
-                    'provide_date' => date('Y-m-d', strtotime($data[8])) ?? now(),
+                    'name'          => $data[0] ?? '',
+                    'father_name'   => $data[1] ?? '',
+                    'mother_name'   => $data[2] ?? '',
+                    'village'       => $data[3] ?? '',
+                    'ward_no'       => $data[4] ?? '',
+                    'birth_no'      => $data[5] ?? '',
+                    'birth_date'    => isset($data[6]) ? date('Y-m-d', strtotime($data[6])) : now(),
+                    'provide_date'  => isset($data[7]) ? date('Y-m-d', strtotime($data[7])) : now(),
+                    'division_id'   => $data[8] ?? null,
+                    'district_id'   => $data[9] ?? null,
+                    'upozila_id'    => $data[10] ?? null,
+                    'union_id'      => $data[11] ?? null,
                 ]);
             }
 

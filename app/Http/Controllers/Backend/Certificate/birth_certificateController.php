@@ -18,8 +18,13 @@ class birth_certificateController extends Controller
 
     public function index()
     {
-
-        return view('Backend.Pages.Birth_certificate.index');
+        $division= Division::latest()->get();
+        $district= District::latest()->get();
+        $upzila=Upozila::latest()->get();
+        $union=Union::latest()->get();
+        $post_office=Post_office::latest()->get();
+        $village=Village::latest()->get();
+        return view('Backend.Pages.Birth_certificate.index',compact('district','division','upzila','union','post_office','village'));
     }
     public function upload()
     {
@@ -48,8 +53,8 @@ class birth_certificateController extends Controller
                             ->orWhere('district_name_en', 'like', "%$search%");
                   })
                   ->orWhereHas('upzila', function ($query) use ($search) {
-                      $query->where('upzila_name_bn', 'like', "%$search%")
-                            ->orWhere('upzila_name_en', 'like', "%$search%");
+                      $query->where('upozila_name_bn', 'like', "%$search%")
+                            ->orWhere('upozila_name_en', 'like', "%$search%");
                   })
                   ->orWhereHas('union', function ($query) use ($search) {
                       $query->where('union_name_bn', 'like', "%$search%")

@@ -9,12 +9,46 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-
+                <div class="box-header with-border">
+                    <div class="col-md-4 col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label">বিভাগ</label>
+                            <select id="search_division_id" class="form-control" required="">
+                                <option value="">---নির্বাচন করুন---</option>
+                                @foreach ($division as $item)
+                                  <option value="{{$item->id}}">{{$item->division_name_bn}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label">জেলা</label>
+                            <select id="search_zila_id" class="form-control" required="">
+                                <option value="">---নির্বাচন করুন---</option>
+                                <!-- @foreach ($district as $item)
+                                  <option value="{{$item->id}}">{{$item->district_name_bn}}</option>
+                                @endforeach -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label">উপজেলা</label>
+                            <select id="search_upzila_id" class="form-control" required="">
+                                <option value="">---নির্বাচন করুন---</option>
+                                <!-- @foreach ($upzila as $item)
+                                  <option value="{{$item->id}}">{{$item->upozila_name_bn}}</option>
+                                @endforeach -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="box-body">
                     <div class="box" style="border-top: none;">
                         <div class="box-body">
                             <div class="table-responsive">
-                                <table id="datatable1" class="table table-bordered table-striped">
+                                <table id="datatable1"  class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead class="data-table-head">
                                         <tr class="data-table-head-row">
                                             <th>ক্রমিক নং</th>
@@ -54,8 +88,18 @@
 @section('script')
 
 <script type="module">
-
-var table = $('#datatable1').DataTable({
+import  {_LoadZila,_LoadUpzila,_LoadUnion,_LoadPostOffice,_LoadVillage,_delete} from "{{asset('Backend/assets/js/Custom.js')}}";
+    /*Filter To Get The Table Data Start*/
+    $(document).on('change','#search_division_id',function(){
+        var getZilaRoute = '{{ route("admin.zila.get_zila", ":id") }}';
+        _LoadZila($(this).val(), '#search_zila_id',getZilaRoute);
+    });
+    $(document).on('change','#search_zila_id',function(){
+        var GetUpzilaRoute = '{{ route("admin.upzila.get_upzila", ":id") }}';
+        var zilaId = $(this).val();
+        _LoadUpzila(zilaId, '#search_upzila_id',GetUpzilaRoute);
+    });
+        var table = $('#datatable1').DataTable({
             processing: true,
             responsive: true,
             serverSide: true,
@@ -110,16 +154,16 @@ var table = $('#datatable1').DataTable({
         });
 
         $('#search_division_id').change(function() {
-        $('#datatable1').DataTable().ajax.reload( null , false);
+            $('#datatable1').DataTable().ajax.reload( null , false);
         });
         $('#search_zila_id').change(function() {
-        $('#datatable1').DataTable().ajax.reload( null , false);
+            $('#datatable1').DataTable().ajax.reload( null , false);
         });
         $('#search_upzila_id').change(function() {
-        $('#datatable1').DataTable().ajax.reload( null , false);
+            $('#datatable1').DataTable().ajax.reload( null , false);
         });
         $('#search_union_id').change(function() {
-        $('#datatable1').DataTable().ajax.reload( null , false);
+            $('#datatable1').DataTable().ajax.reload( null , false);
         });
 
 

@@ -82,6 +82,47 @@
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
+  <!--View Modal Start -->
+      <div class="modal fade" id="viewModal">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title">জন্ম সনদ বিস্তারিত</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button></h4>
+            </div>
+            <div class="modal-body">
+               <table class="table table-bordered">
+                <tr><th>বিভাগ</th><td id="division_name"></td></tr>
+                <tr><th>জেলা</th><td id="zila_name"></td></tr>
+                <tr><th>উপজেলা</th><td id="upzila_name"></td></tr>
+                <tr><th>ইউনিয়ন</th><td id="union_name"></td></tr>
+
+                <tr><th>জন্ম নিবন্ধন নং</th><td id="birth_no"></td></tr>
+                <tr><th>জন্ম তারিখ</th><td id="birth_date"></td></tr>
+
+                <tr><th>নাম</th><td id="name"></td></tr>
+                <tr><th>পিতার নাম</th><td id="father_name"></td></tr>
+                <tr><th>মাতার নাম</th><td id="mother_name"></td></tr>
+                <tr><th>গ্রাম</th><td id="village_name"></td></tr>
+                <tr><th>ওয়ার্ড নং</th><td id="ward_no"></td></tr>
+                <tr><th>প্রদান তারিখ</th><td id="provide_date"></td></tr>
+            </table>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!--modal-dialog -->
+      </div>
+      <!--view Modal End -->
 @endsection
 
 
@@ -165,7 +206,39 @@ import  {_LoadZila,_LoadUpzila,_LoadUnion,_LoadPostOffice,_LoadVillage,_delete} 
         $('#search_union_id').change(function() {
             $('#datatable1').DataTable().ajax.reload( null , false);
         });
+        $(document).on('click', '.view-btn', function() {
+            var id = $(this).data('id');
+            var viewUrl = '{{ route("admin.birth_certificate.view", ":id") }}';
+            var url = viewUrl.replace(':id', id);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function (response) {
+                    if (response.success) {
+                        $('#viewModal').modal('show');
+                        $('#viewModal #division_name').text(response.data.division.division_name_bn);
+                        $('#viewModal #zila_name').text(response.data.zila.district_name_bn);
+                        $('#viewModal #upzila_name').text(response.data.upzila.upozila_name_bn);
+                        $('#viewModal #union_name').text(response.data.union.union_name_bn);
 
+                        $('#viewModal #birth_no').text(response.data.birth_no);
+                        $('#viewModal #birth_date').text(response.data.birth_date);
+                        $('#viewModal #name').text(response.data.name);
+                        $('#viewModal #father_name').text(response.data.father_name);
+                        $('#viewModal #mother_name').text(response.data.mother_name);
+                        $('#viewModal #village_name').text(response.data.village);
+                        $('#viewModal #ward_no').text(response.data.ward_no);
+                        $('#viewModal #provide_date').text(response.data.provide_date);
+                    } else {
+                        toastr.error("Error fetching data for edit!");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                    toastr.error("Error fetching data for edit!");
+                }
+            });
+        });
 
 </script>
 

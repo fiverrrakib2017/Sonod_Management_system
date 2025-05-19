@@ -193,4 +193,13 @@ class birth_certificateController extends Controller
 
         return response()->json(['success' =>true, 'message'=> 'Deleted successfully']);
     }
+    public function view(Request $request){
+        $object = Birth_certificate::with('division', 'zila','upzila', 'union')->find($request->id);
+
+        if (!$object) {
+            return response()->json(['error' => 'Not found']);
+        }
+
+        return response()->json(['success' =>true, 'data'=> $object]);
+    }
 }

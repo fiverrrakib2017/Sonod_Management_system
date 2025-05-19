@@ -127,6 +127,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/all_data', 'all_data')->name('admin.birth_certificate.all_data');
     Route::post('/store', 'store')->name('admin.birth_certificate.store');
     Route::post('/delete', 'delete')->name('admin.birth_certificate.delete');
+    Route::get('/view/{id}', 'view')->name('admin.birth_certificate.view');
     Route::get('/edit/{id}', 'edit')->name('admin.birth_certificate.edit');
     Route::post('/update', 'update')->name('admin.birth_certificate.update');
     Route::post('/upload_csv_file', 'upload_csv_file')->name('admin.birth_certificate.upload_file');
